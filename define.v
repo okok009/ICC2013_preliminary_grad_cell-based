@@ -1,0 +1,16 @@
+`define w0_real 32'h00010000
+`define w0_image 32'h00000000
+`define w1_real 32'h0000EC83
+`define w1_image 32'hFFFF9E09
+`define w2_real 32'h0000B504
+`define w2_image 32'hFFFF4AFC
+`define w3_real 32'h000061F7
+`define w3_image 32'hFFFF137D
+`define w4_real 32'h00000000
+`define w4_image 32'hFFFF0000
+`define w5_real 32'hFFFF9E09
+`define w5_image 32'hFFFF137D
+`define w6_real 32'hFFFF4AFC
+`define w6_image 32'hFFFF4AFC
+`define w7_real 32'hFFFF137D
+`define w7_image 32'hFFFF9E09
