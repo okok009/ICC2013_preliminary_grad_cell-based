@@ -148,7 +148,6 @@ reg [31:0] fft_cmp;
 reg fftr_verify, ffti_verify;
 always@(posedge clk) begin
 	if (fft_valid) begin
-		$display("cycle: %d, FFT_value: %h", i, fft_d7);
 		for (l=0; l<=15; l=l+1) begin
 			fft_cmp = fft_rec[l];
 			fftr_ver_= fftr_mem[k]; fftr_ver = fftr_ver_;
