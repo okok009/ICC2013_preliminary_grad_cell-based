@@ -84,7 +84,7 @@ end
 
 // FFT
 wire fft_valid_valid;
-wire signed [16:0] mid_1, mid_2, mid_3, mid_4, fft_d0_17; // 17 bit only real
+wire signed [17:0] mid_1, mid_2, mid_3, mid_4, fft_d0_17; // 17 bit only real
 wire [95:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 96 bit have 16 real 16 imag, so can not use signed
 wire [95:0] fft_d1_96, fft_d2_96, fft_d3_96, fft_d4_96, fft_d5_96, fft_d6_96, fft_d7_96,
             fft_d8_96, fft_d9_96, fft_d10_96, fft_d11_96, fft_d12_96, fft_d13_96, fft_d14_96, fft_d15_96;
@@ -501,14 +501,56 @@ assign fft_a = {fft_a_real_cal};
 assign fft_b = {fft_b_real_cal, 48'b0};
 endmodule
 
+module FFT_2point_w0_16_3(X, Y, fft_a, fft_b);
+input [17:0] X;
+input [17:0] Y;
+output [17:0] fft_a;
+output [95:0] fft_b;
+
+wire signed [17:0] a, c;
+wire signed [17:0] fft_a_real_cal;
+wire signed [47:0] fft_b_real_cal;
+
+assign a = X;
+assign c = Y;
+
+assign fft_a_real_cal = a + c;
+
+assign fft_b_real_cal = (a - c)<<<16;
+
+assign fft_a = {fft_a_real_cal};
+assign fft_b = {fft_b_real_cal, 48'b0};
+endmodule
+
 module FFT_2point_w4_16_2(X, Y, fft_a, fft_b);
 input [16:0] X;
 input [16:0] Y;
-output [16:0] fft_a;
+output [17:0] fft_a;
 output [95:0] fft_b;
 
 wire signed [16:0] a, c;
-wire signed [16:0] fft_a_real_cal;
+wire signed [17:0] fft_a_real_cal;
+wire signed [47:0] fft_b_imag_cal;
+
+assign a = X;
+assign c = Y;
+
+assign fft_a_real_cal = a + c;
+
+assign fft_b_imag_cal = (c - a)<<<16;
+
+assign fft_a = {fft_a_real_cal};
+assign fft_b = {48'b0, fft_b_imag_cal};
+endmodule
+
+module FFT_2point_w4_16_3(X, Y, fft_a, fft_b);
+input [17:0] X;
+input [17:0] Y;
+output [17:0] fft_a;
+output [95:0] fft_b;
+
+wire signed [17:0] a, c;
+wire signed [17:0] fft_a_real_cal;
 wire signed [47:0] fft_b_imag_cal;
 
 assign a = X;
@@ -527,11 +569,11 @@ parameter signed [31:0] w_real = 0;
 parameter signed [31:0] w_imag = 0;
 input [16:0] X;
 input [16:0] Y;
-output [16:0] fft_a;
+output [17:0] fft_a;
 output [95:0] fft_b;
 
 wire signed [16:0] a, c;
-wire signed [16:0] fft_a_real_cal;
+wire signed [17:0] fft_a_real_cal;
 wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
 
 assign a = X;
@@ -643,9 +685,9 @@ output [95:0] out_2, out_3, out_4;
 wire [17:0] out_1_1_1, out_1_2_1;
 wire [95:0] out_1_1_2, out_1_2_2;
 
-FFT_2point_w0_16_2 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_w4_16_2 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_w0_16_2 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
+FFT_2point_w0_16_3 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
+FFT_2point_w4_16_3 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
+FFT_2point_w0_16_3 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
 FFT_2point_w0_95_2 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
 endmodule
 
