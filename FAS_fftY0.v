@@ -88,9 +88,9 @@ wire signed [16:0] mid_1, mid_2, mid_3, mid_4, fft_d0_17; // 17 bit only real
 wire [95:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 96 bit have 16 real 16 imag, so can not use signed
 wire [95:0] fft_d1_96, fft_d2_96, fft_d3_96, fft_d4_96, fft_d5_96, fft_d6_96, fft_d7_96,
             fft_d8_96, fft_d9_96, fft_d10_96, fft_d11_96, fft_d12_96, fft_d13_96, fft_d14_96, fft_d15_96;
-wire [47:0] fft_d1_r, fft_d2_r, fft_d3_r, fft_d4_r, fft_d5_r, fft_d6_r, fft_d7_r,
+wire [15:0] fft_d1_r, fft_d2_r, fft_d3_r, fft_d4_r, fft_d5_r, fft_d6_r, fft_d7_r,
             fft_d8_r, fft_d9_r, fft_d10_r, fft_d11_r, fft_d12_r, fft_d13_r, fft_d14_r, fft_d15_r;
-wire [47:0] fft_d1_i, fft_d2_i, fft_d3_i, fft_d4_i, fft_d5_i, fft_d6_i, fft_d7_i,
+wire [15:0] fft_d1_i, fft_d2_i, fft_d3_i, fft_d4_i, fft_d5_i, fft_d6_i, fft_d7_i,
             fft_d8_i, fft_d9_i, fft_d10_i, fft_d11_i, fft_d12_i, fft_d13_i, fft_d14_i, fft_d15_i;
 
 reg fft_valid_reg;
@@ -429,7 +429,7 @@ assign c = Y;
 
 assign fft_a_real_cal = a + c;
 
-assign fft_b_real_cal = a - c;
+assign fft_b_real_cal = (a - c)<<<16;
 
 assign fft_a = {fft_a_real_cal};
 assign fft_b = {fft_b_real_cal, 48'b0};
@@ -450,7 +450,7 @@ assign c = Y;
 
 assign fft_a_real_cal = a + c;
 
-assign fft_b_imag_cal = c - a;
+assign fft_b_imag_cal = (c - a)<<<16;
 
 assign fft_a = {fft_a_real_cal};
 assign fft_b = {48'b0, fft_b_imag_cal};
@@ -495,7 +495,7 @@ assign c = Y;
 
 assign fft_a_real_cal = a + c;
 
-assign fft_b_real_cal = a - c;
+assign fft_b_real_cal = (a - c)<<<16;
 
 assign fft_a = {fft_a_real_cal};
 assign fft_b = {fft_b_real_cal, 48'b0};
@@ -516,7 +516,7 @@ assign c = Y;
 
 assign fft_a_real_cal = a + c;
 
-assign fft_b_imag_cal = c - a;
+assign fft_b_imag_cal = (c - a)<<<16;
 
 assign fft_a = {fft_a_real_cal};
 assign fft_b = {48'b0, fft_b_imag_cal};
@@ -553,8 +553,8 @@ output [95:0] fft_a;
 output [95:0] fft_b;
 
 wire signed [47:0] a, b, c, d;
-wire signed [47:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal;
+wire signed [47:0] fft_a_real_cal, fft_a_imag_cal;
+wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
 
 assign a = X[95:48];
 assign b = X[47:0];
@@ -578,8 +578,8 @@ output [95:0] fft_a;
 output [95:0] fft_b;
 
 wire signed [47:0] a, c;
-wire signed [47:0] fft_a_real_cal;
-wire signed [47:0] fft_b_imag_cal;
+wire signed [47:0] fft_a_real_cal, fft_a_imag_cal;
+wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
 
 assign a = X[95:48];
 assign b = X[47:0];
@@ -605,7 +605,7 @@ output [95:0] fft_a;
 output [95:0] fft_b;
 
 wire signed [47:0] a, c;
-wire signed [47:0] fft_a_real_cal;
+wire signed [47:0] fft_a_real_cal, fft_a_imag_cal;
 wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
 
 assign a = X[95:48];
@@ -702,13 +702,13 @@ FFT_2point_95_2 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_2(.X(out_1_1_2), .Y(
 endmodule
 
 module round_96to16 (x, rounded_x);
-    input [95:0] x;
+    input [47:0] x;
     output [15:0] rounded_x;
 
     wire carry_bit;
 
-    assign carry_bit = (x[95]) ? (x[15] && (|x[14:0])) : x[15];
-    assign rounded_x = {x[95], (x[30:16] + carry_bit)};
+    assign carry_bit = (x[47]) ? (x[15] && (|x[14:0])) : x[15];
+    assign rounded_x = {x[47], (x[30:16] + carry_bit)};
 
 endmodule
 
