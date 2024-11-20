@@ -1,3 +1,4 @@
+`include "define.v"
 `timescale 1ns/10ps
 `define CYCLE     100                 // Modify your clock period here
 `define SDFFILE    ""    // Modify your sdf file name
@@ -40,10 +41,15 @@ initial $readmemh("./dat/Golden1_FFT_imag.dat", ffti_mem);
 integer i, j ,k, l;
 integer fir_fail, fft_fail;
 
+// wire signed [15:0] mid_1;
+// wire signed [31:0] mid_5, mid_9, mid_13;
+// wire [`FFT_OUT_L_UP_BW -1:0] mid_1;
+wire [`FFT_OUT_L_DOWN_BW*2 -1:0] mid_5, mid_6, mid_7, mid_8;
 FAS DUT(.data_valid(en), .data(data), .clk(clk), .rst(reset), .fir_d(fir_d), .fir_valid(fir_valid), .fft_valid(fft_valid), .done(done), .freq(freq),
 	.fft_d0(fft_d0), .fft_d1(fft_d1), .fft_d2(fft_d2), .fft_d3(fft_d3), .fft_d4(fft_d4), .fft_d5(fft_d5), .fft_d6(fft_d6), .fft_d7(fft_d7), .fft_d8(fft_d8),
- 	.fft_d9(fft_d9), .fft_d10(fft_d10), .fft_d11(fft_d11), .fft_d12(fft_d12), .fft_d13(fft_d13), .fft_d14(fft_d14), .fft_d15(fft_d15) );
-
+ 	.fft_d9(fft_d9), .fft_d10(fft_d10), .fft_d11(fft_d11), .fft_d12(fft_d12), .fft_d13(fft_d13), .fft_d14(fft_d14), .fft_d15(fft_d15), 
+	.mid_5(mid_5), .mid_6(mid_6), .mid_7(mid_7), .mid_8(mid_8) );
+// 
 
 `ifdef SDFFILE
 initial $sdf_annotate(`SDFFILE, DUT);
@@ -99,7 +105,7 @@ always@(posedge clk) begin
 	if (fir_valid) begin	
 		fir_verify = ((fir_mem[j] == fir_d+1) || (fir_mem[j] == fir_d) || (fir_mem[j] == fir_d-1));
 		if ( (!fir_verify) || (fir_d === 16'bx) || (fir_d === 16'bz)) begin
-			$display("ERROR at FIR cycle %3d: The real response output %4h != expectd %4h " ,j, fir_d, fir_mem[j]);
+			$display("ERROR at FIR cycle %3d: The real response output %b != expectd %b " ,j, fir_d, fir_mem[j]);
 			$display("-----------------------------------------------------");
 			fir_fail <= fir_fail + 1;
 		end
@@ -148,6 +154,8 @@ reg [31:0] fft_cmp;
 reg fftr_verify, ffti_verify;
 always@(posedge clk) begin
 	if (fft_valid) begin
+		$display("mid_5: %h, mid_6: %h, mid_7: %h, mid_8: %h", mid_5, mid_6, mid_7, mid_8);
+		$finish;
 		for (l=0; l<=15; l=l+1) begin
 			fft_cmp = fft_rec[l];
 			fftr_ver_= fftr_mem[k]; fftr_ver = fftr_ver_;

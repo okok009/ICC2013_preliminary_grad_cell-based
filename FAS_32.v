@@ -2,7 +2,7 @@
 
 module  FAS (data_valid, data, clk, rst, fir_d, fir_valid, fft_valid, done, freq,
  fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8,
- fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0, mid_1, mid_5, mid_9, mid_13);
+ fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0, mid_5, mid_6, mid_7, mid_8);
 parameter signed [31:0] w0_real = 32'h00010000;
 parameter signed [31:0] w0_imag = 32'h00000000;
 parameter signed [31:0] w1_real = 32'h0000EC83;
@@ -28,7 +28,8 @@ output fir_valid, fft_valid;
 output [15:0] fir_d;
 output [31:0] fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8;
 output [31:0] fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0;
-output signed [15:0] mid_1, mid_5, mid_9, mid_13;
+// output signed [15:0] mid_2;
+output signed [31:0] mid_5, mid_6, mid_7, mid_8;
 output done;
 output [3:0] freq;
 `include "./dat/FIR_coefficient.dat"
@@ -85,9 +86,10 @@ end
 
 // FFT
 wire fft_valid_valid;
-// wire signed [15:0] mid_1, mid_2, mid_3, mid_4, fft_d0_16; // 16 bit only real
-wire signed [15:0] fft_d0_16;
+wire signed [15:0] mid_1, mid_2, mid_3, mid_4, fft_d0_16; // 16 bit only real
+// wire signed [15:0] mid_1, mid_3, mid_4, fft_d0_16;
 wire [31:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 32 bit have 16 real 16 imag, so can not use signed
+// wire [31:0] mid_5, mid_7, mid_8, mid_9, mid_11, mid_12, mid_13, mid_15, mid_16;
 
 reg fft_valid_reg;
 reg fft_valid_valid_reg;
