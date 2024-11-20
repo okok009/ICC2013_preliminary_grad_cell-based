@@ -103,37 +103,37 @@ assign fft_valid = fft_valid_reg;
 assign fft_valid_valid = fft_valid_valid_reg;
 assign fft_d0 = {fft_d0_17[16], fft_d0_17[14:0], 16'b0};
 
-round_96to16 ROUND_r_1(.x(fft_d1_96[95:48]), .rounded_x(fft_d1_r));
-round_96to16 ROUND_r_2(.x(fft_d2_96[95:48]), .rounded_x(fft_d2_r));
-round_96to16 ROUND_r_3(.x(fft_d3_96[95:48]), .rounded_x(fft_d3_r));
-round_96to16 ROUND_r_4(.x(fft_d4_96[95:48]), .rounded_x(fft_d4_r));
-round_96to16 ROUND_r_5(.x(fft_d5_96[95:48]), .rounded_x(fft_d5_r));
-round_96to16 ROUND_r_6(.x(fft_d6_96[95:48]), .rounded_x(fft_d6_r));
-round_96to16 ROUND_r_7(.x(fft_d7_96[95:48]), .rounded_x(fft_d7_r));
-round_96to16 ROUND_r_8(.x(fft_d8_96[95:48]), .rounded_x(fft_d8_r));
-round_96to16 ROUND_r_9(.x(fft_d9_96[95:48]), .rounded_x(fft_d9_r));
-round_96to16 ROUND_r_10(.x(fft_d10_96[95:48]), .rounded_x(fft_d10_r));
-round_96to16 ROUND_r_11(.x(fft_d11_96[95:48]), .rounded_x(fft_d11_r));
-round_96to16 ROUND_r_12(.x(fft_d12_96[95:48]), .rounded_x(fft_d12_r));
-round_96to16 ROUND_r_13(.x(fft_d13_96[95:48]), .rounded_x(fft_d13_r));
-round_96to16 ROUND_r_14(.x(fft_d14_96[95:48]), .rounded_x(fft_d14_r));
-round_96to16 ROUND_r_15(.x(fft_d15_96[95:48]), .rounded_x(fft_d15_r));
+round_48to16 ROUND_r_1(.x(fft_d1_96[95:48]), .rounded_x(fft_d1_r));
+round_48to16 ROUND_r_2(.x(fft_d2_96[95:48]), .rounded_x(fft_d2_r));
+round_48to16 ROUND_r_3(.x(fft_d3_96[95:48]), .rounded_x(fft_d3_r));
+round_48to16 ROUND_r_4(.x(fft_d4_96[95:48]), .rounded_x(fft_d4_r));
+round_48to16 ROUND_r_5(.x(fft_d5_96[95:48]), .rounded_x(fft_d5_r));
+round_48to16 ROUND_r_6(.x(fft_d6_96[95:48]), .rounded_x(fft_d6_r));
+round_48to16 ROUND_r_7(.x(fft_d7_96[95:48]), .rounded_x(fft_d7_r));
+round_48to16 ROUND_r_8(.x(fft_d8_96[95:48]), .rounded_x(fft_d8_r));
+round_48to16 ROUND_r_9(.x(fft_d9_96[95:48]), .rounded_x(fft_d9_r));
+round_48to16 ROUND_r_10(.x(fft_d10_96[95:48]), .rounded_x(fft_d10_r));
+round_48to16 ROUND_r_11(.x(fft_d11_96[95:48]), .rounded_x(fft_d11_r));
+round_48to16 ROUND_r_12(.x(fft_d12_96[95:48]), .rounded_x(fft_d12_r));
+round_48to16 ROUND_r_13(.x(fft_d13_96[95:48]), .rounded_x(fft_d13_r));
+round_48to16 ROUND_r_14(.x(fft_d14_96[95:48]), .rounded_x(fft_d14_r));
+round_48to16 ROUND_r_15(.x(fft_d15_96[95:48]), .rounded_x(fft_d15_r));
 
-round_96to16 ROUND_i_1(.x(fft_d1_96[47:0]), .rounded_x(fft_d1_i));
-round_96to16 ROUND_i_2(.x(fft_d2_96[47:0]), .rounded_x(fft_d2_i));
-round_96to16 ROUND_i_3(.x(fft_d3_96[47:0]), .rounded_x(fft_d3_i));
-round_96to16 ROUND_i_4(.x(fft_d4_96[47:0]), .rounded_x(fft_d4_i));
-round_96to16 ROUND_i_5(.x(fft_d5_96[47:0]), .rounded_x(fft_d5_i));
-round_96to16 ROUND_i_6(.x(fft_d6_96[47:0]), .rounded_x(fft_d6_i));
-round_96to16 ROUND_i_7(.x(fft_d7_96[47:0]), .rounded_x(fft_d7_i));
-round_96to16 ROUND_i_8(.x(fft_d8_96[47:0]), .rounded_x(fft_d8_i));
-round_96to16 ROUND_i_9(.x(fft_d9_96[47:0]), .rounded_x(fft_d9_i));
-round_96to16 ROUND_i_10(.x(fft_d10_96[47:0]), .rounded_x(fft_d10_i));
-round_96to16 ROUND_i_11(.x(fft_d11_96[47:0]), .rounded_x(fft_d11_i));
-round_96to16 ROUND_i_12(.x(fft_d12_96[47:0]), .rounded_x(fft_d12_i));
-round_96to16 ROUND_i_13(.x(fft_d13_96[47:0]), .rounded_x(fft_d13_i));
-round_96to16 ROUND_i_14(.x(fft_d14_96[47:0]), .rounded_x(fft_d14_i));
-round_96to16 ROUND_i_15(.x(fft_d15_96[47:0]), .rounded_x(fft_d15_i));
+round_48to16 ROUND_i_1(.x(fft_d1_96[47:0]), .rounded_x(fft_d1_i));
+round_48to16 ROUND_i_2(.x(fft_d2_96[47:0]), .rounded_x(fft_d2_i));
+round_48to16 ROUND_i_3(.x(fft_d3_96[47:0]), .rounded_x(fft_d3_i));
+round_48to16 ROUND_i_4(.x(fft_d4_96[47:0]), .rounded_x(fft_d4_i));
+round_48to16 ROUND_i_5(.x(fft_d5_96[47:0]), .rounded_x(fft_d5_i));
+round_48to16 ROUND_i_6(.x(fft_d6_96[47:0]), .rounded_x(fft_d6_i));
+round_48to16 ROUND_i_7(.x(fft_d7_96[47:0]), .rounded_x(fft_d7_i));
+round_48to16 ROUND_i_8(.x(fft_d8_96[47:0]), .rounded_x(fft_d8_i));
+round_48to16 ROUND_i_9(.x(fft_d9_96[47:0]), .rounded_x(fft_d9_i));
+round_48to16 ROUND_i_10(.x(fft_d10_96[47:0]), .rounded_x(fft_d10_i));
+round_48to16 ROUND_i_11(.x(fft_d11_96[47:0]), .rounded_x(fft_d11_i));
+round_48to16 ROUND_i_12(.x(fft_d12_96[47:0]), .rounded_x(fft_d12_i));
+round_48to16 ROUND_i_13(.x(fft_d13_96[47:0]), .rounded_x(fft_d13_i));
+round_48to16 ROUND_i_14(.x(fft_d14_96[47:0]), .rounded_x(fft_d14_i));
+round_48to16 ROUND_i_15(.x(fft_d15_96[47:0]), .rounded_x(fft_d15_i));
 
 assign fft_d1 = {fft_d1_r, fft_d1_i};
 assign fft_d2 = {fft_d2_r, fft_d2_i};
@@ -743,7 +743,7 @@ FFT_2point_16_2 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_1(.X(out_1_1_1), .Y(
 FFT_2point_95_2 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
 endmodule
 
-module round_96to16 (x, rounded_x);
+module round_48to16 (x, rounded_x);
     input [47:0] x;
     output [15:0] rounded_x;
 

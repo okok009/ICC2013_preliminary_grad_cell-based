@@ -22,7 +22,7 @@ parameter signed [31:0] w7_imag = 32'hFFFF9E09;
 
 input clk, rst;
 input data_valid;
-input [15:0] data; 
+input [BW:0] data; 
 
 output fir_valid, fft_valid;
 output [15:0] fir_d;

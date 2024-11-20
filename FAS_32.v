@@ -2,7 +2,7 @@
 
 module  FAS (data_valid, data, clk, rst, fir_d, fir_valid, fft_valid, done, freq,
  fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8,
- fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0);
+ fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0, mid_1, mid_5, mid_9, mid_13);
 parameter signed [31:0] w0_real = 32'h00010000;
 parameter signed [31:0] w0_imag = 32'h00000000;
 parameter signed [31:0] w1_real = 32'h0000EC83;
@@ -28,6 +28,7 @@ output fir_valid, fft_valid;
 output [15:0] fir_d;
 output [31:0] fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8;
 output [31:0] fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0;
+output signed [15:0] mid_1, mid_5, mid_9, mid_13;
 output done;
 output [3:0] freq;
 `include "./dat/FIR_coefficient.dat"
@@ -84,7 +85,8 @@ end
 
 // FFT
 wire fft_valid_valid;
-wire signed [15:0] mid_1, mid_2, mid_3, mid_4, fft_d0_16; // 16 bit only real
+// wire signed [15:0] mid_1, mid_2, mid_3, mid_4, fft_d0_16; // 16 bit only real
+wire signed [15:0] fft_d0_16;
 wire [31:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 32 bit have 16 real 16 imag, so can not use signed
 
 reg fft_valid_reg;
@@ -153,7 +155,206 @@ always @(posedge clk) begin
     end
 end
 
+// Analysis
 
+reg done;
+reg done_buf;
+reg start_analysis;
+reg signed [15:0] Y0_real;
+reg signed [15:0] Y0_imag;
+reg signed [15:0] Y1_real;
+reg signed [15:0] Y1_imag;
+reg signed [15:0] Y2_real;
+reg signed [15:0] Y2_imag;
+reg signed [15:0] Y3_real;
+reg signed [15:0] Y3_imag;
+reg signed [15:0] Y4_real;
+reg signed [15:0] Y4_imag;
+reg signed [15:0] Y5_real;
+reg signed [15:0] Y5_imag;
+reg signed [15:0] Y6_real;
+reg signed [15:0] Y6_imag;
+reg signed [15:0] Y7_real;
+reg signed [15:0] Y7_imag;
+reg signed [15:0] Y8_real;
+reg signed [15:0] Y8_imag;
+reg signed [15:0] Y9_real;
+reg signed [15:0] Y9_imag;
+reg signed [15:0] Y10_real;
+reg signed [15:0] Y10_imag;
+reg signed [15:0] Y11_real;
+reg signed [15:0] Y11_imag;
+reg signed [15:0] Y12_real;
+reg signed [15:0] Y12_imag;
+reg signed [15:0] Y13_real;
+reg signed [15:0] Y13_imag;
+reg signed [15:0] Y14_real;
+reg signed [15:0] Y14_imag;
+reg signed [15:0] Y15_real;
+reg signed [15:0] Y15_imag;
+
+wire signed [31:0] Y0_len;
+wire signed [31:0] Y1_len;
+wire signed [31:0] Y2_len;
+wire signed [31:0] Y3_len;
+wire signed [31:0] Y4_len;
+wire signed [31:0] Y5_len;
+wire signed [31:0] Y6_len;
+wire signed [31:0] Y7_len;
+wire signed [31:0] Y8_len;
+wire signed [31:0] Y9_len;
+wire signed [31:0] Y10_len;
+wire signed [31:0] Y11_len;
+wire signed [31:0] Y12_len;
+wire signed [31:0] Y13_len;
+wire signed [31:0] Y14_len;
+wire signed [31:0] Y15_len;
+wire signed [31:0] compare_1_1;
+wire signed [31:0] compare_1_2;
+wire signed [31:0] compare_1_3;
+wire signed [31:0] compare_1_4;
+wire signed [31:0] compare_1_5;
+wire signed [31:0] compare_1_6;
+wire signed [31:0] compare_1_7;
+wire signed [31:0] compare_1_8;
+wire signed [31:0] compare_2_1;
+wire signed [31:0] compare_2_2;
+wire signed [31:0] compare_2_3;
+wire signed [31:0] compare_2_4;
+wire signed [31:0] compare_3_1;
+wire signed [31:0] compare_3_2;
+wire signed [31:0] compare_4_1;
+
+assign Y0_len = (Y0_real*Y0_real) + (Y0_imag*Y0_imag);
+assign Y1_len = (Y1_real*Y1_real) + (Y1_imag*Y1_imag);
+assign Y2_len = (Y2_real*Y2_real) + (Y2_imag*Y2_imag);
+assign Y3_len = (Y3_real*Y3_real) + (Y3_imag*Y3_imag);
+assign Y4_len = (Y4_real*Y4_real) + (Y4_imag*Y4_imag);
+assign Y5_len = (Y5_real*Y5_real) + (Y5_imag*Y5_imag);
+assign Y6_len = (Y6_real*Y6_real) + (Y6_imag*Y6_imag);
+assign Y7_len = (Y7_real*Y7_real) + (Y7_imag*Y7_imag);
+assign Y8_len = (Y8_real*Y8_real) + (Y8_imag*Y8_imag);
+assign Y9_len = (Y9_real*Y9_real) + (Y9_imag*Y9_imag);
+assign Y10_len = (Y10_real*Y10_real) + (Y10_imag*Y10_imag);
+assign Y11_len = (Y11_real*Y11_real) + (Y11_imag*Y11_imag);
+assign Y12_len = (Y12_real*Y12_real) + (Y12_imag*Y12_imag);
+assign Y13_len = (Y13_real*Y13_real) + (Y13_imag*Y13_imag);
+assign Y14_len = (Y14_real*Y14_real) + (Y14_imag*Y14_imag);
+assign Y15_len = (Y15_real*Y15_real) + (Y15_imag*Y15_imag);
+
+assign compare_1_1 = (Y0_len >= Y1_len) ? Y0_len : Y1_len;
+assign compare_1_2 = (Y2_len >= Y3_len) ? Y2_len : Y3_len;
+assign compare_1_3 = (Y4_len >= Y5_len) ? Y4_len : Y5_len;
+assign compare_1_4 = (Y6_len >= Y7_len) ? Y6_len : Y7_len;
+assign compare_1_5 = (Y8_len >= Y9_len) ? Y8_len : Y9_len;
+assign compare_1_6 = (Y10_len >= Y11_len) ? Y10_len : Y11_len;
+assign compare_1_7 = (Y12_len >= Y13_len) ? Y12_len : Y13_len;
+assign compare_1_8 = (Y14_len >= Y15_len) ? Y14_len : Y15_len;
+assign compare_2_1 = (compare_1_1 >= compare_1_2) ? compare_1_1 : compare_1_2;
+assign compare_2_2 = (compare_1_3 >= compare_1_4) ? compare_1_3 : compare_1_4;
+assign compare_2_3 = (compare_1_5 >= compare_1_6) ? compare_1_5 : compare_1_6;
+assign compare_2_4 = (compare_1_7 >= compare_1_8) ? compare_1_7 : compare_1_8;
+assign compare_3_1 = (compare_2_1 >= compare_2_2) ? compare_2_1 : compare_2_2;
+assign compare_3_2 = (compare_2_3 >= compare_2_4) ? compare_2_3 : compare_2_4;
+assign compare_4_1 = (compare_3_1 >= compare_3_2) ? compare_3_1 : compare_3_2;
+
+assign freq = (compare_4_1 == Y0_len) ? 4'b0000 :
+              (compare_4_1 == Y1_len) ? 4'b0001 :
+              (compare_4_1 == Y2_len) ? 4'b0010 :
+              (compare_4_1 == Y3_len) ? 4'b0011 :
+              (compare_4_1 == Y4_len) ? 4'b0100 :
+              (compare_4_1 == Y5_len) ? 4'b0101 :
+              (compare_4_1 == Y6_len) ? 4'b0110 :
+              (compare_4_1 == Y7_len) ? 4'b0111 :
+              (compare_4_1 == Y8_len) ? 4'b1000 :
+              (compare_4_1 == Y9_len) ? 4'b1001 :
+              (compare_4_1 == Y10_len) ? 4'b1010 :
+              (compare_4_1 == Y11_len) ? 4'b1011 :
+              (compare_4_1 == Y12_len) ? 4'b1100 :
+              (compare_4_1 == Y13_len) ? 4'b1101 :
+              (compare_4_1 == Y14_len) ? 4'b1110 :
+              (compare_4_1 == Y15_len) ? 4'b1111 : 4'bxxxx;
+
+always @(posedge clk) begin
+    if (rst) begin
+        done <= 0;
+        done_buf <= 0;
+        Y0_real <= 0;
+        Y0_imag <= 
+        Y1_real <= 0;
+        Y1_imag <= 
+        Y2_real <= 0;
+        Y2_imag <= 
+        Y3_real <= 0;
+        Y3_imag <= 
+        Y4_real <= 0;
+        Y4_imag <= 
+        Y5_real <= 0;
+        Y5_imag <= 
+        Y6_real <= 0;
+        Y6_imag <= 
+        Y7_real <= 0;
+        Y7_imag <= 
+        Y8_real <= 0;
+        Y8_imag <= 
+        Y9_real <= 0;
+        Y9_imag <= 
+        Y10_real <= 0;
+        Y10_imag <= 0;
+        Y11_real <= 0;
+        Y11_imag <= 0;
+        Y12_real <= 0;
+        Y12_imag <= 0;
+        Y13_real <= 0;
+        Y13_imag <= 0;
+        Y14_real <= 0;
+        Y14_imag <= 0;
+        Y15_real <= 0;
+        Y15_imag <= 0;
+    end
+    else if (done) begin
+        done <= 0;
+        done_buf <= 0;
+    end
+    else if (fft_valid_reg) begin
+        Y0_real <= fft_d0[31:16];
+        Y0_imag <= fft_d0[15:0];
+        Y1_real <= fft_d1[31:16];
+        Y1_imag <= fft_d1[15:0];
+        Y2_real <= fft_d2[31:16];
+        Y2_imag <= fft_d2[15:0];
+        Y3_real <= fft_d3[31:16];
+        Y3_imag <= fft_d3[15:0];
+        Y4_real <= fft_d4[31:16];
+        Y4_imag <= fft_d4[15:0];
+        Y5_real <= fft_d5[31:16];
+        Y5_imag <= fft_d5[15:0];
+        Y6_real <= fft_d6[31:16];
+        Y6_imag <= fft_d6[15:0];
+        Y7_real <= fft_d7[31:16];
+        Y7_imag <= fft_d7[15:0];
+        Y8_real <= fft_d8[31:16];
+        Y8_imag <= fft_d8[15:0];
+        Y9_real <= fft_d9[31:16];
+        Y9_imag <= fft_d9[15:0];
+        Y10_real <= fft_d10[31:16];
+        Y10_imag <= fft_d10[15:0];
+        Y11_real <= fft_d11[31:16];
+        Y11_imag <= fft_d11[15:0];
+        Y12_real <= fft_d12[31:16];
+        Y12_imag <= fft_d12[15:0];
+        Y13_real <= fft_d13[31:16];
+        Y13_imag <= fft_d13[15:0];
+        Y14_real <= fft_d14[31:16];
+        Y14_imag <= fft_d14[15:0];
+        Y15_real <= fft_d15[31:16];
+        Y15_imag <= fft_d15[15:0];
+        done_buf <= 1'b1;
+    end
+    else if (done_buf) begin
+        done <= 1'b1;
+    end
+end
 
 endmodule
 
