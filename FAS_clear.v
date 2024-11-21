@@ -43,8 +43,8 @@ assign fir_d_cal = (((fir_X_reg[0] + fir_X_reg[31]) * FIR_C00) +
                     ((fir_X_reg[14] + fir_X_reg[17]) * FIR_C14) +
                     ((fir_X_reg[15] + fir_X_reg[16]) * FIR_C15));
 
-// round_36to16 round_FIR(.x(fir_d_cal), .rounded_x(fir_d));
-assign fir_d = {fir_d_cal[35], fir_d_cal[30:16]};
+round_36_16 round_FIR(.x(fir_d_cal), .rounded_x(fir_d));
+// assign fir_d = {fir_d_cal[35], fir_d_cal[30:16]};
 
 assign fir_valid = (count == 6'b100001 || count == 6'b100010) ? 1 : 0;
 
@@ -540,4 +540,15 @@ module round_FFT_OUT_L_DOWN_BW_16(x, rounded_x);
     assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15];
     assign x_shift = x>>>16;
     assign rounded_x = x_shift + carry_bit;
+endmodule
+
+module round_36_16 (x, rounded_x);
+    input signed [36 -1:0] x;
+    output [36 -1:0] rounded_x;
+
+    wire carry_bit;
+    wire [36 -1:0] x_shift;
+
+    assign carry_bit = (x[36-1]) ? (x[15] && (|x[14:0])) : x[15];
+    assign rounded_x = {x[36-1], (x[30:16] + carry_bit)};
 endmodule
