@@ -43,12 +43,12 @@ integer fir_fail, fft_fail;
 
 // wire signed [15:0] mid_1;
 // wire signed [31:0] mid_5, mid_9, mid_13;
-// wire [`FFT_OUT_L_UP_BW -1:0] mid_1;
-wire [`FFT_OUT_L_DOWN_BW*2 -1:0] mid_5, mid_6, mid_7, mid_8;
+wire [`FFT_OUT_L_UP_BW -1:0] mid_1, mid_2, mid_3, mid_4;
+// wire [`FFT_OUT_L_DOWN_BW*2 -1:0] mid_5, mid_6, mid_7, mid_8;
 FAS DUT(.data_valid(en), .data(data), .clk(clk), .rst(reset), .fir_d(fir_d), .fir_valid(fir_valid), .fft_valid(fft_valid), .done(done), .freq(freq),
 	.fft_d0(fft_d0), .fft_d1(fft_d1), .fft_d2(fft_d2), .fft_d3(fft_d3), .fft_d4(fft_d4), .fft_d5(fft_d5), .fft_d6(fft_d6), .fft_d7(fft_d7), .fft_d8(fft_d8),
  	.fft_d9(fft_d9), .fft_d10(fft_d10), .fft_d11(fft_d11), .fft_d12(fft_d12), .fft_d13(fft_d13), .fft_d14(fft_d14), .fft_d15(fft_d15), 
-	.mid_5(mid_5), .mid_6(mid_6), .mid_7(mid_7), .mid_8(mid_8) );
+	.mid_1(mid_1), .mid_2(mid_2), .mid_3(mid_3), .mid_4(mid_4) );
 // 
 
 `ifdef SDFFILE
@@ -154,7 +154,7 @@ reg [31:0] fft_cmp;
 reg fftr_verify, ffti_verify;
 always@(posedge clk) begin
 	if (fft_valid) begin
-		$display("mid_5: %h, mid_6: %h, mid_7: %h, mid_8: %h", mid_5, mid_6, mid_7, mid_8);
+		$display("mid_1: %h, mid_2: %h, mid_3: %h, mid_4: %h", mid_1, mid_2, mid_3, mid_4);
 		$finish;
 		for (l=0; l<=15; l=l+1) begin
 			fft_cmp = fft_rec[l];

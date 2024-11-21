@@ -94,10 +94,10 @@ FFT_4points_L_0 fft4pL0(.a(fft_X0_reg), .b(fft_X4_reg), .c(fft_X8_reg), .d(fft_X
 FFT_4points_L_1 fft4pL1(.a(fft_X1_reg), .b(fft_X5_reg), .c(fft_X9_reg), .d(fft_X13_reg), .o1(mid_2), .o2(mid_6), .o3(mid_10), .o4(mid_14));
 FFT_4points_L_2 fft4pL2(.a(fft_X2_reg), .b(fft_X6_reg), .c(fft_X10_reg), .d(fft_X14_reg), .o1(mid_3), .o2(mid_7), .o3(mid_11), .o4(mid_15));
 FFT_4points_L_3 fft4pL3(.a(fft_X3_reg), .b(fft_X7_reg), .c(fft_X11_reg), .d(fft_X15_reg), .o1(mid_4), .o2(mid_8), .o3(mid_12), .o4(mid_16));
-FFT_4points_R_UP fft4pR0(.a(mid_1), .b(mid_2), .c(mid_3), .d(mid_4), .o1(fft_d0_out), .o2(fft_d8_out), .o3(fft_d4_out), .o4(fft_d12_out));
-FFT_4points_R_DOWN fft4pR1(.a(mid_5), .b(mid_6), .c(mid_7), .d(mid_8), .o1(fft_d2_out), .o2(fft_d10_out), .o3(fft_d6_out), .o4(fft_d14_out));
-FFT_4points_R_DOWN fft4pR2(.a(mid_9), .b(mid_10), .c(mid_11), .d(mid_12), .o1(fft_d1_out), .o2(fft_d9_out), .o3(fft_d5_out), .o4(fft_d13_out));
-FFT_4points_R_DOWN fft4pR3(.a(mid_13), .b(mid_14), .c(mid_15), .d(mid_16), .o1(fft_d3_out), .o2(fft_d11_out), .o3(fft_d7_out), .o4(fft_d15_out));
+FFT_4points_R_0 fft4pR0(.a(mid_1), .b(mid_2), .c(mid_3), .d(mid_4), .o1(fft_d0_out), .o2(fft_d8_out), .o3(fft_d4_out), .o4(fft_d12_out));
+FFT_4points_R_1 fft4pR1(.a(mid_5), .b(mid_6), .c(mid_7), .d(mid_8), .o1(fft_d2_out), .o2(fft_d10_out), .o3(fft_d6_out), .o4(fft_d14_out));
+FFT_4points_R_2 fft4pR2(.a(mid_9), .b(mid_10), .c(mid_11), .d(mid_12), .o1(fft_d1_out), .o2(fft_d9_out), .o3(fft_d5_out), .o4(fft_d13_out));
+FFT_4points_R_3 fft4pR3(.a(mid_13), .b(mid_14), .c(mid_15), .d(mid_16), .o1(fft_d3_out), .o2(fft_d11_out), .o3(fft_d7_out), .o4(fft_d15_out));
 
 // // round real
 from_82to16 ROUND_r_1(.x(fft_d1_out[`FFT_OUT_R_DOWN_BW*2 -1:`FFT_OUT_R_DOWN_BW]), .rounded_x(fft_d1_r));
@@ -127,7 +127,7 @@ from_82to16 ROUND_i_13(.x(fft_d13_out[`FFT_OUT_R_DOWN_BW -1:0]), .rounded_x(fft_
 from_82to16 ROUND_i_14(.x(fft_d14_out[`FFT_OUT_R_DOWN_BW -1:0]), .rounded_x(fft_d14_i));
 from_82to16 ROUND_i_15(.x(fft_d15_out[`FFT_OUT_R_DOWN_BW -1:0]), .rounded_x(fft_d15_i));
 
-assign fft_d0 = {fft_d0_out[`FFT_OUT_R_UP_BW-1], fft_d0_out[`BW -2:0], 16'b0};
+assign fft_d0 = {fft_d0_out[`FFT_OUT_R_UP_BW-1], fft_d0_out[`BW -2:0], `BW'b0};
 assign fft_d1 = {fft_d1_r, fft_d1_i};
 assign fft_d2 = {fft_d2_r, fft_d2_i};
 assign fft_d3 = {fft_d3_r, fft_d3_i};
@@ -234,7 +234,6 @@ output signed [`FFT_OUT_L_DOWN_BW*2 -1:0] o2, o3, o4;
 wire signed [`BW :0] a_a_c, b_a_d, a_m_c, b_m_d, aac_m_bad;
 wire signed [`BW + `FFT_W_BW -1:0] amc_w1r, amc_w1i, bmd_w1r, bmd_w1i;
 wire signed [`FFT_OUT_L_UP_BW -1:0] o1_real;
-wire signed[`FFT_OUT_L_DOWN_BW -1:0] o2_real_, o2_imag_, o3_real_, o3_imag_, o4_real_, o4_imag_;
 wire signed[`FFT_OUT_L_DOWN_BW -1:0] o2_real, o2_imag, o3_real, o3_imag, o4_real, o4_imag;
 
 assign a_a_c = a + c;
@@ -247,20 +246,13 @@ assign amc_w1i = a_m_c * w1_imag;
 assign bmd_w1r = b_m_d * w1_real;
 assign bmd_w1i = b_m_d * w1_imag;
 
-assign o1_real_ = a_a_c + b_a_d;
-assign o2_real_ = aac_m_bad * w2_real;
-assign o2_imag_ = aac_m_bad * w2_imag;
-assign o3_real_ = amc_w1r + bmd_w1i;
-assign o3_imag_ = amc_w1i - bmd_w1r;
-assign o4_real_ = (amc_w1r + bmd_w1r + amc_w1i - bmd_w1i) * w2_real;
-assign o4_imag_ = (bmd_w1r - amc_w1r + amc_w1i + bmd_w1i) * w2_real;
-
-round_FFT_OUT_L_DOWN_BW_16 round1(.x(o2_real_), .rounded_x(o2_real));
-round_FFT_OUT_L_DOWN_BW_16 round2(.x(o2_imag_), .rounded_x(o2_imag));
-round_FFT_OUT_L_DOWN_BW_16 round3(.x(o3_real_), .rounded_x(o3_real));
-round_FFT_OUT_L_DOWN_BW_16 round4(.x(o3_imag_), .rounded_x(o3_imag));
-round_FFT_OUT_L_DOWN_BW_32 round5(.x(o4_real_), .rounded_x(o4_real));
-round_FFT_OUT_L_DOWN_BW_32 round6(.x(o4_imag_), .rounded_x(o4_imag));
+assign o1_real = a_a_c + b_a_d;
+assign o2_real = aac_m_bad * w2_real;
+assign o2_imag = aac_m_bad * w2_imag;
+assign o3_real = amc_w1r + bmd_w1i;
+assign o3_imag = amc_w1i - bmd_w1r;
+assign o4_real = (amc_w1r + bmd_w1r + amc_w1i - bmd_w1i) * w2_real;
+assign o4_imag = (bmd_w1r - amc_w1r + amc_w1i + bmd_w1i) * w2_real;
 
 assign o1 = {o1_real};
 assign o2 = {o2_real, o2_imag};
@@ -279,7 +271,6 @@ output signed [`FFT_OUT_L_DOWN_BW*2 -1:0] o2, o3, o4;
 wire signed [`BW :0] a_a_c, b_a_d, a_m_c, b_m_d;
 wire signed [`BW +1:0] amc_m_bmd, amc_a_bmd;
 wire signed [`FFT_OUT_L_UP_BW -1:0] o1_real;
-wire signed [`FFT_OUT_L_DOWN_BW -1:0] o3_real_, o3_imag_, o4_real_, o4_imag_;
 wire signed [`FFT_OUT_L_DOWN_BW -1:0] o2_imag, o3_real, o3_imag, o4_real, o4_imag;
 
 assign a_a_c = a + c;
@@ -292,15 +283,10 @@ assign amc_a_bmd = a_m_c + b_m_d;
 
 assign o1_real = a_a_c + b_a_d;
 assign o2_imag = b_a_d - a_a_c;
-assign o3_real_ = amc_m_bmd * w2_real;
-assign o3_imag_ = amc_a_bmd * w2_imag;
-assign o4_real_ = amc_m_bmd * w2_imag;
-assign o4_imag_ = amc_a_bmd * w2_imag;
-
-round_FFT_OUT_L_DOWN_BW_16 round1(.x(o3_real_), .rounded_x(o3_real));
-round_FFT_OUT_L_DOWN_BW_16 round2(.x(o3_imag_), .rounded_x(o3_imag));
-round_FFT_OUT_L_DOWN_BW_16 round3(.x(o4_real_), .rounded_x(o4_real));
-round_FFT_OUT_L_DOWN_BW_16 round4(.x(o4_imag_), .rounded_x(o4_imag));
+assign o3_real = amc_m_bmd * w2_real;
+assign o3_imag = amc_a_bmd * w2_imag;
+assign o4_real = amc_m_bmd * w2_imag;
+assign o4_imag = amc_a_bmd * w2_imag;
 
 assign o1 = {o1_real};
 assign o2 = {`FFT_OUT_L_DOWN_BW'b0, o2_imag};
@@ -313,7 +299,6 @@ module FFT_4points_L_3 (a, b, c, d, o1, o2, o3, o4);
 parameter signed [`FFT_W_BW -1:0] w3_real = 32'h000061F7;
 parameter signed [`FFT_W_BW -1:0] w3_imag = 32'hFFFF137D;
 parameter signed [`FFT_W_BW -1:0] w6_real = 32'hFFFF4AFC;
-parameter signed [`FFT_W_BW -1:0] w6_imag = 32'hFFFF4AFC;
 input signed [`BW -1:0] a, b, c, d;
 output signed [`FFT_OUT_L_UP_BW -1:0] o1;
 output signed [`FFT_OUT_L_DOWN_BW*2 -1:0] o2, o3, o4;
@@ -321,7 +306,6 @@ output signed [`FFT_OUT_L_DOWN_BW*2 -1:0] o2, o3, o4;
 wire signed [`BW :0] a_a_c, b_a_d, a_m_c, b_m_d, aac_m_bad;
 wire signed [`BW + `FFT_W_BW -1:0] amc_w3r, bmd_w3i, amc_w3i, bmd_w3r;
 wire signed [`FFT_OUT_L_UP_BW -1:0] o1_real;
-wire signed [`FFT_OUT_L_DOWN_BW -1:0] o2_real_, o2_imag_, o3_real_, o3_imag_, o4_real_, o4_imag_;
 wire signed [`FFT_OUT_L_DOWN_BW -1:0] o2_real, o2_imag, o3_real, o3_imag, o4_real, o4_imag;
 
 assign a_a_c = a + c;
@@ -336,19 +320,12 @@ assign amc_w3i = a_m_c * w3_imag;
 assign bmd_w3r = b_m_d * w3_real;
 
 assign o1_real = a_a_c + b_a_d;
-assign o2_real_ = aac_m_bad * w6_real;
-assign o2_imag_ = aac_m_bad * w6_imag;
-assign o3_real_ = amc_w3r + bmd_w3i;
-assign o3_imag_ = amc_w3i - bmd_w3r;
-assign o4_real_ = (amc_w3r - bmd_w3r - bmd_w3i - amc_w3i) * w6_real;
-assign o4_imag_ = (amc_w3r + bmd_w3r + bmd_w3i - amc_w3i) * w6_real;
-
-round_FFT_OUT_L_DOWN_BW_16 round1(.x(o2_real_), .rounded_x(o2_real));
-round_FFT_OUT_L_DOWN_BW_16 round2(.x(o2_imag_), .rounded_x(o2_imag));
-round_FFT_OUT_L_DOWN_BW_16 round3(.x(o3_real_), .rounded_x(o3_real));
-round_FFT_OUT_L_DOWN_BW_16 round4(.x(o3_imag_), .rounded_x(o3_imag));
-round_FFT_OUT_L_DOWN_BW_32 round5(.x(o4_real_), .rounded_x(o4_real));
-round_FFT_OUT_L_DOWN_BW_32 round6(.x(o4_imag_), .rounded_x(o4_imag));
+assign o2_real = aac_m_bad * w6_real;
+assign o2_imag = o2_real;
+assign o3_real = amc_w3r + bmd_w3i;
+assign o3_imag = amc_w3i - bmd_w3r;
+assign o4_real = (amc_w3r - bmd_w3r - bmd_w3i - amc_w3i) * w6_real;
+assign o4_imag = (amc_w3r + bmd_w3r - bmd_w3i + amc_w3i) * w6_real;
 
 assign o1 = {o1_real};
 assign o2 = {o2_real, o2_imag};
@@ -357,7 +334,7 @@ assign o4 = {o4_real, o4_imag};
 
 endmodule
 
-module FFT_4points_R_UP (a, b, c, d, o1, o2, o3, o4);
+module FFT_4points_R_0 (a, b, c, d, o1, o2, o3, o4);
 input signed [`FFT_OUT_L_UP_BW -1:0] a, b, c, d;
 output signed [`FFT_OUT_R_UP_BW -1:0] o1;
 output signed [`FFT_OUT_R_UP_BW*2 -1:0] o2, o3, o4;
@@ -381,12 +358,13 @@ assign o4 = {a_m_c, b_m_d};
     
 endmodule
 
-module FFT_4points_R_DOWN (a, b, c, d, o1, o2, o3, o4);
+module FFT_4points_R_1 (a, b, c, d, o1, o2, o3, o4);
 input signed [`FFT_OUT_L_DOWN_BW*2 -1:0] a, b, c, d;
 output signed [`FFT_OUT_R_DOWN_BW*2 -1:0] o1, o2, o3, o4;
 
 wire signed [`FFT_OUT_L_DOWN_BW -1:0] a_r, a_i, b_r, b_i, c_r, c_i, d_r, d_i;
-wire signed [`FFT_OUT_L_DOWN_BW :0] ar_a_cr, br_a_dr, ai_a_ci, bi_a_di, ar_m_cr, bi_m_di, ai_m_ci, dr_m_br;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] br_a_dr_, bi_a_di_, bi_m_di_, dr_m_br_;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] ar_a_cr, br_a_dr, ai_a_ci, bi_a_di, ar_m_cr, bi_m_di, ai_m_ci, dr_m_br;
 wire signed [`FFT_OUT_R_DOWN_BW -1:0] o1_real, o1_imag, o2_real, o2_imag, o3_real, o3_imag, o4_real, o4_imag;
 
 assign a_r = a[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
@@ -399,13 +377,122 @@ assign d_r = d[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
 assign d_i = d[`FFT_OUT_L_DOWN_BW -1:0];
 
 assign ar_a_cr = a_r + c_r;
-assign br_a_dr = b_r + d_r;
+assign br_a_dr_ = b_r + d_r;
 assign ai_a_ci = a_i + c_i;
-assign bi_a_di = b_i + d_i;
+assign bi_a_di_ = b_i + d_i;
 assign ar_m_cr = a_r - c_r;
-assign bi_m_di = b_i - d_i;
+assign bi_m_di_ = b_i - d_i;
 assign ai_m_ci = a_i - c_i;
-assign dr_m_br = d_r - b_r;
+assign dr_m_br_ = d_r - b_r;
+
+round_FFT_OUT_L_DOWN_BW_16 round1(.x(br_a_dr_), .rounded_x(br_a_dr));
+round_FFT_OUT_L_DOWN_BW_16 round2(.x(bi_a_di_), .rounded_x(bi_a_di));
+round_FFT_OUT_L_DOWN_BW_16 round3(.x(bi_m_di_), .rounded_x(bi_m_di));
+round_FFT_OUT_L_DOWN_BW_16 round4(.x(dr_m_br_), .rounded_x(dr_m_br));
+
+assign o1_real = ar_a_cr + br_a_dr;
+assign o1_imag = ai_a_ci + bi_a_di;
+assign o2_real = ar_a_cr - br_a_dr;
+assign o2_imag = ai_a_ci - bi_a_di;
+assign o3_real = ar_m_cr + bi_m_di;
+assign o3_imag = ai_m_ci + dr_m_br;
+assign o4_real = ar_m_cr - bi_m_di;
+assign o4_imag = ai_m_ci - dr_m_br;
+
+assign o1 = {o1_real, o1_imag};
+assign o2 = {o2_real, o2_imag};
+assign o3 = {o3_real, o3_imag};
+assign o4 = {o4_real, o4_imag};
+    
+endmodule
+
+module FFT_4points_R_2 (a, b, c, d, o1, o2, o3, o4);
+input signed [`FFT_OUT_L_DOWN_BW*2 -1:0] a, b, c, d;
+output signed [`FFT_OUT_R_DOWN_BW*2 -1:0] o1, o2, o3, o4;
+
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] c_r_, c_i_;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] a_r, a_i, b_r, b_i, c_r, c_i, d_r, d_i;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] br_a_dr_, bi_a_di_, bi_m_di_, dr_m_br_;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] ar_a_cr, br_a_dr, ai_a_ci, bi_a_di, ar_m_cr, bi_m_di, ai_m_ci, dr_m_br;
+wire signed [`FFT_OUT_R_DOWN_BW -1:0] o1_real, o1_imag, o2_real, o2_imag, o3_real, o3_imag, o4_real, o4_imag;
+
+assign a_r = a[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign a_i = a[`FFT_OUT_L_DOWN_BW -1:0];
+assign b_r = b[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign b_i = b[`FFT_OUT_L_DOWN_BW -1:0];
+assign c_r_ = c[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign c_i_ = c[`FFT_OUT_L_DOWN_BW -1:0];
+assign d_r = d[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign d_i = d[`FFT_OUT_L_DOWN_BW -1:0];
+
+round_FFT_OUT_L_DOWN_BW_16 round1(.x(c_r_), .rounded_x(c_r));
+round_FFT_OUT_L_DOWN_BW_16 round2(.x(c_i_), .rounded_x(c_i));
+
+assign ar_a_cr = a_r + c_r;
+assign br_a_dr_ = b_r + d_r;
+assign ai_a_ci = a_i + c_i;
+assign bi_a_di_ = b_i + d_i;
+assign ar_m_cr = a_r - c_r;
+assign bi_m_di_ = b_i - d_i;
+assign ai_m_ci = a_i - c_i;
+assign dr_m_br_ = d_r - b_r;
+
+round_FFT_OUT_L_DOWN_BW_16 round3(.x(br_a_dr_), .rounded_x(br_a_dr));
+round_FFT_OUT_L_DOWN_BW_16 round4(.x(bi_a_di_), .rounded_x(bi_a_di));
+round_FFT_OUT_L_DOWN_BW_16 round5(.x(bi_m_di_), .rounded_x(bi_m_di));
+round_FFT_OUT_L_DOWN_BW_16 round6(.x(dr_m_br_), .rounded_x(dr_m_br));
+
+assign o1_real = ar_a_cr + br_a_dr;
+assign o1_imag = ai_a_ci + bi_a_di;
+assign o2_real = ar_a_cr - br_a_dr;
+assign o2_imag = ai_a_ci - bi_a_di;
+assign o3_real = ar_m_cr + bi_m_di;
+assign o3_imag = ai_m_ci + dr_m_br;
+assign o4_real = ar_m_cr - bi_m_di;
+assign o4_imag = ai_m_ci - dr_m_br;
+
+assign o1 = {o1_real, o1_imag};
+assign o2 = {o2_real, o2_imag};
+assign o3 = {o3_real, o3_imag};
+assign o4 = {o4_real, o4_imag};
+    
+endmodule
+
+module FFT_4points_R_3 (a, b, c, d, o1, o2, o3, o4);
+input signed [`FFT_OUT_L_DOWN_BW*2 -1:0] a, b, c, d;
+output signed [`FFT_OUT_R_DOWN_BW*2 -1:0] o1, o2, o3, o4;
+
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] c_r_, c_i_;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] a_r, a_i, b_r, b_i, c_r, c_i, d_r, d_i;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] br_a_dr_, bi_a_di_, bi_m_di_, dr_m_br_;
+wire signed [`FFT_OUT_L_DOWN_BW -1:0] ar_a_cr, br_a_dr, ai_a_ci, bi_a_di, ar_m_cr, bi_m_di, ai_m_ci, dr_m_br;
+wire signed [`FFT_OUT_R_DOWN_BW -1:0] o1_real, o1_imag, o2_real, o2_imag, o3_real, o3_imag, o4_real, o4_imag;
+
+assign a_r = a[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign a_i = a[`FFT_OUT_L_DOWN_BW -1:0];
+assign b_r = b[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign b_i = b[`FFT_OUT_L_DOWN_BW -1:0];
+assign c_r_ = c[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign c_i_ = c[`FFT_OUT_L_DOWN_BW -1:0];
+assign d_r = d[`FFT_OUT_L_DOWN_BW*2 -1:`FFT_OUT_L_DOWN_BW];
+assign d_i = d[`FFT_OUT_L_DOWN_BW -1:0];
+
+round_FFT_OUT_L_DOWN_BW_16 round1(.x(c_r_), .rounded_x(c_r));
+round_FFT_OUT_L_DOWN_BW_16 round2(.x(c_i_), .rounded_x(c_i));
+
+assign ar_a_cr = a_r + c_r;
+assign br_a_dr_ = b_r + d_r;
+assign ai_a_ci = a_i + c_i;
+assign bi_a_di_ = b_i + d_i;
+assign ar_m_cr = a_r - c_r;
+assign bi_m_di_ = b_i - d_i;
+assign ai_m_ci = a_i - c_i;
+assign dr_m_br_ = d_r - b_r;
+
+round_FFT_OUT_L_DOWN_BW_32 round3(.x(br_a_dr_), .rounded_x(br_a_dr));
+round_FFT_OUT_L_DOWN_BW_32 round4(.x(bi_a_di_), .rounded_x(bi_a_di));
+round_FFT_OUT_L_DOWN_BW_32 round5(.x(bi_m_di_), .rounded_x(bi_m_di));
+round_FFT_OUT_L_DOWN_BW_32 round6(.x(dr_m_br_), .rounded_x(dr_m_br));
 
 assign o1_real = ar_a_cr + br_a_dr;
 assign o1_imag = ai_a_ci + bi_a_di;
