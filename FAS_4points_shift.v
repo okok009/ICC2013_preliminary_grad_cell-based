@@ -43,7 +43,8 @@ assign fir_d_cal = (((fir_X_reg[0] + fir_X_reg[31]) * FIR_C00) +
 
 round_FIR_CAL_OUT_BW_16 round_FIR(.x(fir_d_cal), .rounded_x(fir_d));
 
-assign fir_valid = (count == 6'b100001 || count == 6'b100010) ? 1 : 0;
+// assign fir_valid = (count == 6'b100001 || count == 6'b100010) ? 1 : 0; // old version
+assign fir_valid = (count[5] && (count[0] || count[1])) ? 1 : 0;
 
 always @(posedge clk) begin
     if(rst) begin
@@ -58,8 +59,10 @@ always @(posedge clk) begin
         for (i=1; i<32; i=i+1) begin
             fir_X_reg[i] <= fir_X_reg[i-1];
         end
-        fir_d_reg <= ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]) ? {fir_d_reg[`BW*17-17 -1:0], 1'b1, fir_d} : {fir_d_reg[`BW*17-17 -1:0], 1'b0, fir_d};
-        if (count != 6'b100010) begin
+        // fir_d_reg <= ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]) ? {fir_d_reg[`BW*17-17 -1:0], 1'b1, fir_d} : {fir_d_reg[`BW*17-17 -1:0], 1'b0, fir_d}; // old version
+        fir_d_reg <= {fir_d_reg[`BW*17-17 -1:0], ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]), fir_d};
+        // if (count != 6'b100010) begin // old version
+        if (~(count[5]&&count[1])) begin
             count <= count + 1'b1;
         end
     end
@@ -405,7 +408,7 @@ wire signed [`FFT_OUT_L_DOWN_BW -1:0] o2_real;
 assign a_a_c = a + c;
 assign b_a_d = b + d;
 assign a_m_c = a - c;
-assign b_m_d = b - d;
+assign b_m_d = b - d; // 可以優化
 assign d_m_b = d - b;
 
 assign o1_real = a_a_c + b_a_d;
