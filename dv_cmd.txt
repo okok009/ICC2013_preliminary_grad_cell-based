@@ -1,0 +1,32 @@
+read_file ../FAS_4points_shift.v
+source FAS_100.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_100.log
+report_power > ./4points_shift/part1/power_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_100.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_100.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_100.log
+report_power > ./4points_shift/part1/power_ultra_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.v
+remove_design -designs 
+
+
+<Test Gate Level>
+
+<<part1 間隔10>>
+ncverilog ./4points_shift/testfixture1_100.v ./4points_shift/part1/FAS_syn_100.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./4points_shift/testfixture1_100.v ./4points_shift/part1/FAS_syn_ultra_100.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean

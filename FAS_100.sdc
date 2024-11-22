@@ -8,14 +8,8 @@ set_clock_uncertainty  1  [get_clocks clk]
 set_clock_latency      1  [get_clocks clk]
 
 set_input_delay 1 -clock clk [get_ports rst]
-set_input_delay 4 -clock clk [get_ports {data*}]
 
 set_output_delay 1 -clock clk [get_ports done]
-
-set_output_delay 2 -max -clock clk [get_ports {f*}] -add_delay
-set_output_delay -1 -min -clock clk [get_ports {f*}] -add_delay
-set_output_delay 2 -max -clock clk [get_ports done] -add_delay
-set_output_delay -1 -min -clock clk [get_ports done] -add_delay
 
 set_fix_hold clk
 
