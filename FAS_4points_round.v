@@ -12,6 +12,8 @@ output fir_valid, fft_valid;
 output [15:0] fir_d;
 output [31:0] fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8;
 output [31:0] fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0;
+// output signed [`FFT_OUT_L_UP_BW -1:0] mid_2;
+// output signed [`FFT_OUT_L_DOWN_BW*2 -1:0] mid_5, mid_6, mid_7, mid_8;
 output done;
 output [3:0] freq;
 `include "./dat/FIR_coefficient.dat"
@@ -718,42 +720,39 @@ module round_FFT_OUT_L_DOWN_BW_32(x, rounded_x);
     input signed [`FFT_OUT_L_DOWN_BW -1:0] x;
     output [`FFT_OUT_L_DOWN_BW -1:0] rounded_x;
 
-    // wire carry_bit;
-    // wire [`FFT_OUT_L_DOWN_BW -1:0] x_shift;
+    wire carry_bit;
+    wire [`FFT_OUT_L_DOWN_BW -1:0] x_shift;
 
-    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (&x[`FFT_OUT_L_DOWN_BW -1:32]) ? 1'b1 : (x[31] && (|x[30:0])) : x[31]; // neg plus one
-    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[31] && (|x[30:0])) : x[31]; // 4out5in
-    // assign x_shift = x>>>32;
-    // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>32;
+    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (&x[`FFT_OUT_L_DOWN_BW -1:32]) ? 1'b1 : (x[31] && (|x[30:0])) : x[31];
+    assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[31] && (|x[30:0])) : x[31]; // 4out5in
+    assign x_shift = x>>>32;
+    assign rounded_x = x_shift + carry_bit;
 endmodule
 
 module round_FFT_OUT_L_DOWN_BW_16(x, rounded_x);
     input signed [`FFT_OUT_L_DOWN_BW -1:0] x;
     output [`FFT_OUT_L_DOWN_BW -1:0] rounded_x;
 
-    // wire carry_bit;
-    // wire [`FFT_OUT_L_DOWN_BW -1:0] x_shift;
+    wire carry_bit;
+    wire [`FFT_OUT_L_DOWN_BW -1:0] x_shift;
 
-    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (&x[`FFT_OUT_L_DOWN_BW -1:16]) ? 1'b1 : (x[15] && (|x[14:0])) : x[15]; // neg plus one
-    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
-    // assign x_shift = x>>>16;
-    // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>`ZOOM;
+    // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (&x[`FFT_OUT_L_DOWN_BW -1:16]) ? 1'b1 : (x[15] && (|x[14:0])) : x[15];
+    assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
+    assign x_shift = x>>>16;
+    assign rounded_x = x_shift + carry_bit;
 endmodule
 
 module round_FFT_OUT_R_DOWN_BW_16 (x, rounded_x);
     input signed [`FFT_OUT_R_DOWN_BW -1:0] x;
     output [`FFT_OUT_R_DOWN_BW -1:0] rounded_x;
 
-    // wire carry_bit;
-    // wire [`FFT_OUT_R_DOWN_BW -1:0] x_shift;
+    wire carry_bit;
+    wire [`FFT_OUT_R_DOWN_BW -1:0] x_shift;
 
-    // assign carry_bit = (x[`FFT_OUT_R_DOWN_BW-1]) ? (&x[`FFT_OUT_R_DOWN_BW -1:16]) ? 1'b1 : (x[15] && (|x[14:0])) : x[15]; //neg plus one
-    // assign carry_bit = (x[`FFT_OUT_R_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
-    // assign x_shift = x>>>16; 
-    // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>`ZOOM;
+    // assign carry_bit = (x[`FFT_OUT_R_DOWN_BW-1]) ? (&x[`FFT_OUT_R_DOWN_BW -1:16]) ? 1'b1 : (x[15] && (|x[14:0])) : x[15];
+    assign carry_bit = (x[`FFT_OUT_R_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
+    assign x_shift = x>>>16;
+    assign rounded_x = x_shift + carry_bit;
 endmodule
 
 module round_FIR_CAL_OUT_BW_16 (x, rounded_x);
@@ -770,4 +769,3 @@ module round_FIR_CAL_OUT_BW_16 (x, rounded_x);
     // assign carry_bit = (x[36-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
     assign rounded_x = x_shift + carry_bit;
 endmodule
-

@@ -725,7 +725,7 @@ module round_FFT_OUT_L_DOWN_BW_32(x, rounded_x);
     // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[31] && (|x[30:0])) : x[31]; // 4out5in
     // assign x_shift = x>>>32;
     // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>32;
+    assign rounded_x = x>>>`ZOOM*2; //shift32
 endmodule
 
 module round_FFT_OUT_L_DOWN_BW_16(x, rounded_x);
@@ -739,7 +739,7 @@ module round_FFT_OUT_L_DOWN_BW_16(x, rounded_x);
     // assign carry_bit = (x[`FFT_OUT_L_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
     // assign x_shift = x>>>16;
     // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>`ZOOM;
+    assign rounded_x = x>>>`ZOOM; //shift
 endmodule
 
 module round_FFT_OUT_R_DOWN_BW_16 (x, rounded_x);
@@ -753,7 +753,7 @@ module round_FFT_OUT_R_DOWN_BW_16 (x, rounded_x);
     // assign carry_bit = (x[`FFT_OUT_R_DOWN_BW-1]) ? (x[15] && (|x[14:0])) : x[15]; // 4out5in
     // assign x_shift = x>>>16; 
     // assign rounded_x = x_shift + carry_bit;
-    assign rounded_x = x>>>`ZOOM;
+    assign rounded_x = x>>>`ZOOM; //shift
 endmodule
 
 module round_FIR_CAL_OUT_BW_16 (x, rounded_x);

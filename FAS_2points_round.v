@@ -2,7 +2,7 @@
 
 module  FAS (data_valid, data, clk, rst, fir_d, fir_valid, fft_valid, done, freq,
  fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8,
- fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0);
+ fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0, mid_5, mid_6, mid_7, mid_8);
 parameter signed [31:0] w0_real = 32'h00010000;
 parameter signed [31:0] w0_imag = 32'h00000000;
 parameter signed [31:0] w1_real = 32'h0000EC83;
@@ -28,6 +28,7 @@ output fir_valid, fft_valid;
 output [15:0] fir_d;
 output [31:0] fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8;
 output [31:0] fft_d9, fft_d10, fft_d11, fft_d12, fft_d13, fft_d14, fft_d15, fft_d0;
+output signed [31:0] mid_5, mid_6, mid_7, mid_8;
 output done;
 output [3:0] freq;
 `include "./dat/FIR_coefficient.dat"
@@ -57,8 +58,7 @@ assign fir_d_cal = (((fir_X_reg[0] + fir_X_reg[31]) * FIR_C00) +
                     ((fir_X_reg[14] + fir_X_reg[17]) * FIR_C14) +
                     ((fir_X_reg[15] + fir_X_reg[16]) * FIR_C15));
 
-// round_36to16 round_FIR(.x(fir_d_cal), .rounded_x(fir_d));
-assign fir_d = {fir_d_cal[35], fir_d_cal[30:16]};
+round_36to16 round_FIR(.x(fir_d_cal), .rounded_x(fir_d));
 
 assign fir_valid = (count == 6'b100001 || count == 6'b100010) ? 1 : 0;
 
@@ -84,14 +84,10 @@ end
 
 // FFT
 wire fft_valid_valid;
-wire signed [16:0] mid_1, mid_2, mid_3, mid_4, fft_d0_17; // 17 bit only real
-wire [95:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 96 bit have 16 real 16 imag, so can not use signed
-wire [95:0] fft_d1_96, fft_d2_96, fft_d3_96, fft_d4_96, fft_d5_96, fft_d6_96, fft_d7_96,
-            fft_d8_96, fft_d9_96, fft_d10_96, fft_d11_96, fft_d12_96, fft_d13_96, fft_d14_96, fft_d15_96;
-wire [47:0] fft_d1_r, fft_d2_r, fft_d3_r, fft_d4_r, fft_d5_r, fft_d6_r, fft_d7_r,
-            fft_d8_r, fft_d9_r, fft_d10_r, fft_d11_r, fft_d12_r, fft_d13_r, fft_d14_r, fft_d15_r;
-wire [47:0] fft_d1_i, fft_d2_i, fft_d3_i, fft_d4_i, fft_d5_i, fft_d6_i, fft_d7_i,
-            fft_d8_i, fft_d9_i, fft_d10_i, fft_d11_i, fft_d12_i, fft_d13_i, fft_d14_i, fft_d15_i;
+wire signed [15:0] mid_1, mid_2, mid_3, mid_4, fft_d0_16; // 16 bit only real
+// wire signed [15:0] mid_1, mid_3, mid_4, fft_d0_16;
+wire [31:0] mid_5, mid_6, mid_7, mid_8, mid_9, mid_10, mid_11, mid_12, mid_13, mid_14, mid_15, mid_16; // 32 bit have 16 real 16 imag, so can not use signed
+// wire [31:0] mid_5, mid_7, mid_8, mid_9, mid_11, mid_12, mid_13, mid_15, mid_16;
 
 reg fft_valid_reg;
 reg fft_valid_valid_reg;
@@ -101,66 +97,16 @@ reg signed [15:0] fft_X0_reg, fft_X1_reg, fft_X2_reg, fft_X3_reg, fft_X4_reg,
 
 assign fft_valid = fft_valid_reg;
 assign fft_valid_valid = fft_valid_valid_reg;
-assign fft_d0 = {fft_d0_17[16], fft_d0_17[14:0], 16'b0};
+assign fft_d0 = fft_d0_16<<16;
 
-round_96to16 ROUND_r_1(.x(fft_d1_96[95:48]), .rounded_x(fft_d1_r));
-round_96to16 ROUND_r_2(.x(fft_d2_96[95:48]), .rounded_x(fft_d2_r));
-round_96to16 ROUND_r_3(.x(fft_d3_96[95:48]), .rounded_x(fft_d3_r));
-round_96to16 ROUND_r_4(.x(fft_d4_96[95:48]), .rounded_x(fft_d4_r));
-round_96to16 ROUND_r_5(.x(fft_d5_96[95:48]), .rounded_x(fft_d5_r));
-round_96to16 ROUND_r_6(.x(fft_d6_96[95:48]), .rounded_x(fft_d6_r));
-round_96to16 ROUND_r_7(.x(fft_d7_96[95:48]), .rounded_x(fft_d7_r));
-round_96to16 ROUND_r_8(.x(fft_d8_96[95:48]), .rounded_x(fft_d8_r));
-round_96to16 ROUND_r_9(.x(fft_d9_96[95:48]), .rounded_x(fft_d9_r));
-round_96to16 ROUND_r_10(.x(fft_d10_96[95:48]), .rounded_x(fft_d10_r));
-round_96to16 ROUND_r_11(.x(fft_d11_96[95:48]), .rounded_x(fft_d11_r));
-round_96to16 ROUND_r_12(.x(fft_d12_96[95:48]), .rounded_x(fft_d12_r));
-round_96to16 ROUND_r_13(.x(fft_d13_96[95:48]), .rounded_x(fft_d13_r));
-round_96to16 ROUND_r_14(.x(fft_d14_96[95:48]), .rounded_x(fft_d14_r));
-round_96to16 ROUND_r_15(.x(fft_d15_96[95:48]), .rounded_x(fft_d15_r));
-
-round_96to16 ROUND_i_1(.x(fft_d1_96[47:0]), .rounded_x(fft_d1_i));
-round_96to16 ROUND_i_2(.x(fft_d2_96[47:0]), .rounded_x(fft_d2_i));
-round_96to16 ROUND_i_3(.x(fft_d3_96[47:0]), .rounded_x(fft_d3_i));
-round_96to16 ROUND_i_4(.x(fft_d4_96[47:0]), .rounded_x(fft_d4_i));
-round_96to16 ROUND_i_5(.x(fft_d5_96[47:0]), .rounded_x(fft_d5_i));
-round_96to16 ROUND_i_6(.x(fft_d6_96[47:0]), .rounded_x(fft_d6_i));
-round_96to16 ROUND_i_7(.x(fft_d7_96[47:0]), .rounded_x(fft_d7_i));
-round_96to16 ROUND_i_8(.x(fft_d8_96[47:0]), .rounded_x(fft_d8_i));
-round_96to16 ROUND_i_9(.x(fft_d9_96[47:0]), .rounded_x(fft_d9_i));
-round_96to16 ROUND_i_10(.x(fft_d10_96[47:0]), .rounded_x(fft_d10_i));
-round_96to16 ROUND_i_11(.x(fft_d11_96[47:0]), .rounded_x(fft_d11_i));
-round_96to16 ROUND_i_12(.x(fft_d12_96[47:0]), .rounded_x(fft_d12_i));
-round_96to16 ROUND_i_13(.x(fft_d13_96[47:0]), .rounded_x(fft_d13_i));
-round_96to16 ROUND_i_14(.x(fft_d14_96[47:0]), .rounded_x(fft_d14_i));
-round_96to16 ROUND_i_15(.x(fft_d15_96[47:0]), .rounded_x(fft_d15_i));
-
-assign fft_d1 = {fft_d1_r, fft_d1_i};
-assign fft_d2 = {fft_d2_r, fft_d2_i};
-assign fft_d3 = {fft_d3_r, fft_d3_i};
-assign fft_d4 = {fft_d4_r, fft_d4_i};
-assign fft_d5 = {fft_d5_r, fft_d5_i};
-assign fft_d6 = {fft_d6_r, fft_d6_i};
-assign fft_d7 = {fft_d7_r, fft_d7_i};
-assign fft_d8 = {fft_d8_r, fft_d8_i};
-assign fft_d9 = {fft_d9_r, fft_d9_i};
-assign fft_d10 = {fft_d10_r, fft_d10_i};
-assign fft_d11 = {fft_d11_r, fft_d11_i};
-assign fft_d12 = {fft_d12_r, fft_d12_i};
-assign fft_d13 = {fft_d13_r, fft_d13_i};
-assign fft_d14 = {fft_d14_r, fft_d14_i};
-assign fft_d15 = {fft_d15_r, fft_d15_i};
-
-
-
-FFT_4point_w0_w4_16 FFT_L_1(fft_X0_reg, fft_X4_reg, fft_X8_reg, fft_X12_reg, mid_1, mid_5, mid_9, mid_13);
+FFT_4point_16_w0_w4 FFT_L_1(fft_X0_reg, fft_X4_reg, fft_X8_reg, fft_X12_reg, mid_1, mid_5, mid_9, mid_13);
 FFT_4point_16 #(.w1_real(w1_real), .w1_imag (w1_imag), .w2_real(w5_real), .w2_imag (w5_imag), .w3_real(w2_real), .w3_imag (w2_imag)) FFT_L_2(fft_X1_reg, fft_X5_reg, fft_X9_reg, fft_X13_reg, mid_2, mid_6, mid_10, mid_14);
-FFT_4point_w4_16 #(.w1_real(w2_real), .w1_imag (w2_imag), .w2_real(w6_real), .w2_imag (w6_imag)) FFT_L_3(fft_X2_reg, fft_X6_reg, fft_X10_reg, fft_X14_reg, mid_3, mid_7, mid_11, mid_15);
+FFT_4point_16_w4 #(.w1_real(w2_real), .w1_imag (w2_imag), .w2_real(w6_real), .w2_imag (w6_imag)) FFT_L_3(fft_X2_reg, fft_X6_reg, fft_X10_reg, fft_X14_reg, mid_3, mid_7, mid_11, mid_15);
 FFT_4point_16 #(.w1_real(w3_real), .w1_imag (w3_imag), .w2_real(w7_real), .w2_imag (w7_imag), .w3_real(w6_real), .w3_imag (w6_imag)) FFT_L_4(fft_X3_reg, fft_X7_reg, fft_X11_reg, fft_X15_reg, mid_4, mid_8, mid_12, mid_16);
-FFT_4point_w0_w4_17 FFT_R_1(mid_1, mid_2, mid_3, mid_4, fft_d0_16, fft_d8_96, fft_d4_96, fft_d12_96);
-FFT_4point_w0_w4_95 FFT_R_2(mid_5, mid_6, mid_7, mid_8, fft_d2_96, fft_d10_96, fft_d6_96, fft_d14_96);
-FFT_4point_w0_w4_95 FFT_R_3(mid_9, mid_10, mid_11, mid_12, fft_d1_96, fft_d9_96, fft_d5_96, fft_d13_96);
-FFT_4point_w0_w4_95 FFT_R_4(mid_13, mid_14, mid_15, mid_16, fft_d3_96, fft_d11_96, fft_d7_96, fft_d15_96);
+FFT_4point_16_w0_w4 FFT_R_1(mid_1, mid_2, mid_3, mid_4, fft_d0_16, fft_d8, fft_d4, fft_d12);
+FFT_4point_32 FFT_R_2(mid_5, mid_6, mid_7, mid_8, fft_d2, fft_d10, fft_d6, fft_d14);
+FFT_4point_32 FFT_R_3(mid_9, mid_10, mid_11, mid_12, fft_d1, fft_d9, fft_d5, fft_d13);
+FFT_4point_32 FFT_R_4(mid_13, mid_14, mid_15, mid_16, fft_d3, fft_d11, fft_d7, fft_d15);
 
 // FFT_seq
 always @(posedge clk) begin
@@ -201,13 +147,11 @@ always @(posedge clk) begin
         fft_X13_reg <= fir_d_reg[(271-17*13-1) -: 16];
         fft_X14_reg <= fir_d_reg[(271-17*14-1) -: 16];
         fft_X15_reg <= fir_d_reg[(271-17*15-1) -: 16];
+        fft_valid_reg <= 1'b0;
         fft_valid_valid_reg <= 1'b1;
     end
-    else if (fft_valid_valid && fir_d_reg[237]) begin
+    else if (fft_valid_valid && fir_d_reg[254]) begin
         fft_valid_reg <= 1'b1;
-    end
-    else if (fir_d_reg[254]) begin
-        fft_valid_reg <= 1'b0;
     end
 end
 
@@ -336,25 +280,25 @@ always @(posedge clk) begin
         done <= 0;
         done_buf <= 0;
         Y0_real <= 0;
-        Y0_imag <= 
+        Y0_imag <= 0;
         Y1_real <= 0;
-        Y1_imag <= 
+        Y1_imag <= 0;
         Y2_real <= 0;
-        Y2_imag <= 
+        Y2_imag <= 0;
         Y3_real <= 0;
-        Y3_imag <= 
+        Y3_imag <= 0;
         Y4_real <= 0;
-        Y4_imag <= 
+        Y4_imag <= 0;
         Y5_real <= 0;
-        Y5_imag <= 
+        Y5_imag <= 0;
         Y6_real <= 0;
-        Y6_imag <= 
+        Y6_imag <= 0;
         Y7_real <= 0;
-        Y7_imag <= 
+        Y7_imag <= 0;
         Y8_real <= 0;
-        Y8_imag <= 
+        Y8_imag <= 0;
         Y9_real <= 0;
-        Y9_imag <= 
+        Y9_imag <= 0;
         Y10_real <= 0;
         Y10_imag <= 0;
         Y11_real <= 0;
@@ -414,152 +358,20 @@ end
 
 endmodule
 
-module FFT_2point_w0_16_1(X, Y, fft_a, fft_b);
-input [15:0] X;
-input [15:0] Y;
-output [16:0] fft_a;
-output [95:0] fft_b;
+module FFT_2point_32_w0(X, Y, fft_a, fft_b);
+input [31:0] X;
+input [31:0] Y;
+output [31:0] fft_a;
+output [31:0] fft_b;
 
-wire signed [15:0] a, c;
-wire signed [16:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal;
+wire signed [15:0] a, b, c, d;
+wire signed [15:0] fft_a_real_cal, fft_a_imag_cal;
+wire signed [15:0] fft_b_real_cal, fft_b_imag_cal;
 
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_real_cal = a - c;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {fft_b_real_cal, 48'b0};
-endmodule
-
-module FFT_2point_w4_16_1(X, Y, fft_a, fft_b);
-input [15:0] X;
-input [15:0] Y;
-output [16:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [15:0] a, c;
-wire signed [16:0] fft_a_real_cal;
-wire signed [47:0] fft_b_imag_cal;
-
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_imag_cal = c - a;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {48'b0, fft_b_imag_cal};
-endmodule
-
-module FFT_2point_16_1(X, Y, fft_a, fft_b);
-parameter signed [31:0] w_real = 0;
-parameter signed [31:0] w_imag = 0;
-input [15:0] X;
-input [15:0] Y;
-output [16:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [15:0] a, c;
-wire signed [16:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
-
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_real_cal = (a - c) * w_real;
-assign fft_b_imag_cal = (a - c) * w_imag;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {fft_b_real_cal, fft_b_imag_cal};
-endmodule
-
-module FFT_2point_w0_16_2(X, Y, fft_a, fft_b);
-input [16:0] X;
-input [16:0] Y;
-output [17:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [16:0] a, c;
-wire signed [17:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal;
-
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_real_cal = a - c;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {fft_b_real_cal, 48'b0};
-endmodule
-
-module FFT_2point_w4_16_2(X, Y, fft_a, fft_b);
-input [16:0] X;
-input [16:0] Y;
-output [16:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [16:0] a, c;
-wire signed [16:0] fft_a_real_cal;
-wire signed [47:0] fft_b_imag_cal;
-
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_imag_cal = c - a;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {48'b0, fft_b_imag_cal};
-endmodule
-
-module FFT_2point_16_2(X, Y, fft_a, fft_b);
-parameter signed [31:0] w_real = 0;
-parameter signed [31:0] w_imag = 0;
-input [16:0] X;
-input [16:0] Y;
-output [16:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [16:0] a, c;
-wire signed [16:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
-
-assign a = X;
-assign c = Y;
-
-assign fft_a_real_cal = a + c;
-
-assign fft_b_real_cal = (a - c) * w_real;
-assign fft_b_imag_cal = (a - c) * w_imag;
-
-assign fft_a = {fft_a_real_cal};
-assign fft_b = {fft_b_real_cal, fft_b_imag_cal};
-endmodule
-
-module FFT_2point_w0_95_2(X, Y, fft_a, fft_b);
-input [95:0] X;
-input [95:0] Y;
-output [95:0] fft_a;
-output [95:0] fft_b;
-
-wire signed [47:0] a, b, c, d;
-wire signed [47:0] fft_a_real_cal;
-wire signed [47:0] fft_b_real_cal;
-
-assign a = X[95:48];
-assign b = X[47:0];
-assign c = Y[95:48];
-assign d = Y[47:0];
+assign a = X[31-:16];
+assign b = X[15-:16];
+assign c = Y[31-:16];
+assign d = Y[15-:16];
 
 assign fft_a_real_cal = a + c;
 assign fft_a_imag_cal = b + d;
@@ -571,20 +383,20 @@ assign fft_a = {fft_a_real_cal, fft_a_imag_cal};
 assign fft_b = {fft_b_real_cal, fft_b_imag_cal};
 endmodule
 
-module FFT_2point_w4_95_2(X, Y, fft_a, fft_b);
-input [95:0] X;
-input [95:0] Y;
-output [95:0] fft_a;
-output [95:0] fft_b;
+module FFT_2point_32_w4(X, Y, fft_a, fft_b);
+input [31:0] X;
+input [31:0] Y;
+output [31:0] fft_a;
+output [31:0] fft_b;
 
-wire signed [47:0] a, c;
-wire signed [47:0] fft_a_real_cal;
-wire signed [47:0] fft_b_imag_cal;
+wire signed [15:0] a, b, c, d;
+wire signed [15:0] fft_a_real_cal, fft_a_imag_cal;
+wire signed [15:0] fft_b_real_cal, fft_b_imag_cal;
 
-assign a = X[95:48];
-assign b = X[47:0];
-assign c = Y[95:48];
-assign d = Y[47:0];
+assign a = X[31-:16];
+assign b = X[15-:16];
+assign c = Y[31-:16];
+assign d = Y[15-:16];
 
 assign fft_a_real_cal = a + c;
 assign fft_a_imag_cal = b + d;
@@ -596,22 +408,26 @@ assign fft_a = {fft_a_real_cal, fft_a_imag_cal};
 assign fft_b = {fft_b_real_cal, fft_b_imag_cal};
 endmodule
 
-module FFT_2point_95_2(X, Y, fft_a, fft_b);
+module FFT_2point_32(X, Y, fft_a, fft_b);
 parameter signed [31:0] w_real = 0;
 parameter signed [31:0] w_imag = 0;
-input [95:0] X;
-input [95:0] Y;
-output [95:0] fft_a;
-output [95:0] fft_b;
+input [31:0] X;
+input [31:0] Y;
+output [31:0] fft_a;
+output [31:0] fft_b;
 
-wire signed [47:0] a, c;
-wire signed [47:0] fft_a_real_cal;
+wire signed [15:0] a, b, c, d;
+wire signed [15:0] fft_a_real_cal, fft_a_imag_cal;
 wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
+wire signed [15:0] fft_b_real, fft_b_imag;
 
-assign a = X[95:48];
-assign b = X[47:0];
-assign c = Y[95:48];
-assign d = Y[47:0];
+round_48to16 roundreal(.x(fft_b_real_cal), .rounded_x(fft_b_real));
+round_48to16 roundimag(.x(fft_b_imag_cal), .rounded_x(fft_b_imag));
+
+assign a = X[31-:16];
+assign b = X[15-:16];
+assign c = Y[31-:16];
+assign d = Y[15-:16];
 
 assign fft_a_real_cal = a + c;
 assign fft_a_imag_cal = b + d;
@@ -620,65 +436,126 @@ assign fft_b_real_cal = (a - c) * w_real + (d - b) * w_imag;
 assign fft_b_imag_cal = (a - c) * w_imag + (b - d) * w_real;
 
 assign fft_a = {fft_a_real_cal, fft_a_imag_cal};
-assign fft_b = {fft_b_real_cal, fft_b_imag_cal};
+assign fft_b = {fft_b_real, fft_b_imag};
 endmodule
 
-module FFT_4point_w0_w4_95(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
-input [95:0] in_1, in_2, in_3, in_4;
-output [95:0] out_1, out_2, out_3, out_4;
+module FFT_2point_16_w0(X, Y, fft_a, fft_b);
+input [15:0] X;
+input [15:0] Y;
+output [15:0] fft_a;
+output [31:0] fft_b;
 
-wire [95:0] out_1_1_1, out_1_1_2, out_1_2_1, out_1_2_2;
+wire signed [15:0] a, c;
+wire signed [15:0] fft_a_real_cal;
+wire signed [15:0] fft_b_real_cal;
 
-FFT_2point_w0_95_2 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_w4_95_2 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_w0_95_2 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
-FFT_2point_w0_95_2 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+assign a = X;
+assign c = Y;
+
+assign fft_a_real_cal = a + c;
+
+assign fft_b_real_cal = a - c;
+
+assign fft_a = {fft_a_real_cal};
+assign fft_b = {fft_b_real_cal, 16'b0};
 endmodule
 
-module FFT_4point_w0_w4_17(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
-input [17:0] in_1, in_2, in_3, in_4;
-output [17:0] out_1;
-output [95:0] out_2, out_3, out_4;
+module FFT_2point_16_w4(X, Y, fft_a, fft_b);
+input [15:0] X;
+input [15:0] Y;
+output [15:0] fft_a;
+output [31:0] fft_b;
 
-wire [17:0] out_1_1_1, out_1_2_1;
-wire [95:0] out_1_1_2, out_1_2_2;
+wire signed [15:0] a, c;
+wire signed [15:0] fft_a_real_cal;
+wire signed [15:0] fft_b_imag_cal;
 
-FFT_2point_w0_16_2 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_w4_16_2 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_w0_16_2 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
-FFT_2point_w0_95_2 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+assign a = X;
+assign c = Y;
+
+assign fft_a_real_cal = a + c;
+
+assign fft_b_imag_cal = c - a;
+
+assign fft_a = {fft_a_real_cal};
+assign fft_b = {16'b0, fft_b_imag_cal};
 endmodule
 
-module FFT_4point_w0_w4_16(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
+module FFT_2point_16(X, Y, fft_a, fft_b);
+parameter signed [31:0] w_real = 0;
+parameter signed [31:0] w_imag = 0;
+input [15:0] X;
+input [15:0] Y;
+output [15:0] fft_a;
+output [31:0] fft_b;
+
+wire signed [15:0] a, c;
+wire signed [15:0] fft_a_real_cal;
+wire signed [47:0] fft_b_real_cal, fft_b_imag_cal;
+wire signed [15:0] fft_b_real, fft_b_imag;
+
+round_48to16 roundreal(.x(fft_b_real_cal), .rounded_x(fft_b_real));
+round_48to16 roundimag(.x(fft_b_imag_cal), .rounded_x(fft_b_imag));
+
+assign a = X;
+assign c = Y;
+
+assign fft_a_real_cal = a + c;
+
+assign fft_b_real_cal = (a - c) * w_real;
+assign fft_b_imag_cal = (a - c) * w_imag;
+
+assign fft_a = {fft_a_real_cal};
+assign fft_b = {fft_b_real, fft_b_imag};
+endmodule
+
+// w1 w3
+// w2 w3
+module FFT_4point_32(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
+input [31:0] in_1, in_2, in_3, in_4;
+output [31:0] out_1, out_2, out_3, out_4;
+
+wire [31:0] out_1_1_1, out_1_1_2, out_1_2_1, out_1_2_2;
+
+FFT_2point_32_w0 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
+FFT_2point_32_w4 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
+FFT_2point_32_w0 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
+FFT_2point_32_w0 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+
+endmodule
+
+module FFT_4point_16_w0_w4(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
 input [15:0] in_1, in_2, in_3, in_4;
-output [17:0] out_1;
-output [95:0] out_2, out_3, out_4;
+output [15:0] out_1;
+output [31:0] out_2, out_3, out_4;
 
-wire [16:0] out_1_1_1, out_1_2_1;
-wire [95:0] out_1_1_2, out_1_2_2;
+wire [15:0] out_1_1_1, out_1_2_1;
+wire [31:0] out_1_1_2, out_1_2_2;
 
-FFT_2point_w0_16_1 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_w4_16_1 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_w0_16_2 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
-FFT_2point_w0_95_2 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+FFT_2point_16_w0 FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
+FFT_2point_16_w4 FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
+FFT_2point_16_w0 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
+FFT_2point_32_w0 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+    
 endmodule
 
-module FFT_4point_w4_16(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
+module FFT_4point_16_w4(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
 parameter signed [31:0] w1_real = 32'b0;
 parameter signed [31:0] w1_imag = 32'b0;  
 parameter signed [31:0] w2_real = 32'b0;
 parameter signed [31:0] w2_imag = 32'b0;
 input [15:0] in_1, in_2, in_3, in_4;
-output [17:0] out_1;
-output [95:0] out_2, out_3, out_4;
+output [15:0] out_1;
+output [31:0] out_2, out_3, out_4;
 
-wire [16:0] out_1_1_1, out_1_2_1;
-wire [95:0] out_1_1_2, out_1_2_2;
+wire [15:0] out_1_1_1, out_1_2_1;
+wire [31:0] out_1_1_2, out_1_2_2;
 
-FFT_2point_16_1 #(.w_real(w1_real), .w_imag(w1_imag)) FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_16_1 #(.w_real(w2_real), .w_imag(w2_imag)) FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_w4_16_2 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
-FFT_2point_w4_95_2 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+FFT_2point_16 #(.w_real(w1_real), .w_imag(w1_imag)) FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
+FFT_2point_16 #(.w_real(w2_real), .w_imag(w2_imag)) FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
+FFT_2point_16_w4 FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
+FFT_2point_32_w4 FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+    
 endmodule
 
 module FFT_4point_16(in_1, in_2, in_3, in_4, out_1, out_2, out_3, out_4);
@@ -689,27 +566,39 @@ parameter signed [31:0] w2_imag = 32'b0;
 parameter signed [31:0] w3_real = 32'b0;
 parameter signed [31:0] w3_imag = 32'b0;
 input [15:0] in_1, in_2, in_3, in_4;
-output [17:0] out_1;
-output [95:0] out_2, out_3, out_4;
+output [15:0] out_1;
+output [31:0] out_2, out_3, out_4;
 
-wire [16:0] out_1_1_1, out_1_2_1;
-wire [95:0] out_1_1_2, out_1_2_2;
+wire [15:0] out_1_1_1, out_1_2_1;
+wire [31:0] out_1_1_2, out_1_2_2;
 
-FFT_2point_16_1 #(.w_real(w1_real), .w_imag(w1_imag)) FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
-FFT_2point_16_1 #(.w_real(w2_real), .w_imag(w2_imag)) FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
-FFT_2point_16_2 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
-FFT_2point_95_2 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+FFT_2point_16 #(.w_real(w1_real), .w_imag(w1_imag)) FFT_1_1(.X(in_1), .Y(in_3), .fft_a(out_1_1_1), .fft_b(out_1_1_2));
+FFT_2point_16 #(.w_real(w2_real), .w_imag(w2_imag)) FFT_1_2(.X(in_2), .Y(in_4), .fft_a(out_1_2_1), .fft_b(out_1_2_2));
+FFT_2point_16 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_1(.X(out_1_1_1), .Y(out_1_2_1), .fft_a(out_1), .fft_b(out_2));
+FFT_2point_32 #(.w_real(w3_real), .w_imag(w3_imag)) FFT_2_2(.X(out_1_1_2), .Y(out_1_2_2), .fft_a(out_3), .fft_b(out_4));
+    
 endmodule
 
-module round_96to16 (x, rounded_x);
-    input [95:0] x;
+module round_48to16 (x, rounded_x);
+    input [47:0] x;
     output [15:0] rounded_x;
 
     wire carry_bit;
 
-    assign carry_bit = (x[95]) ? (x[15] && (|x[14:0])) : x[15];
-    assign rounded_x = {x[95], (x[30:16] + carry_bit)};
+    assign carry_bit = (x[47]) ? (x[15] && (|x[14:0])) : x[15];
+    assign rounded_x = {x[47], (x[30:16] + carry_bit)};
 
 endmodule
 
+module round_36to16 (x, rounded_x);
+    input [35:0] x;
+    output [15:0] rounded_x;
 
+    wire carry_bit;
+    wire [15:0] x_shift;
+
+    assign x_shift = x>>>16;
+    assign carry_bit = x[35]; // neg plus one
+    assign rounded_x = x_shift + carry_bit;
+
+endmodule
