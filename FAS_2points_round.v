@@ -1,4 +1,4 @@
-// `include "define.v"
+`include "define.v"
 
 module  FAS (data_valid, data, clk, rst, fir_d, fir_valid, fft_valid, done, freq,
  fft_d1, fft_d2, fft_d3, fft_d4, fft_d5, fft_d6, fft_d7, fft_d8,

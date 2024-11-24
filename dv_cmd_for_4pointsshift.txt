@@ -1,0 +1,582 @@
+<syn tsmc13>
+
+<<part1 間隔10>>
+
+read_file ../FAS_4points_shift.v
+source FAS_100.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_100.log
+report_power > ./4points_shift/part1/power_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_100.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_100.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_100.log
+report_power > ./4points_shift/part1/power_ultra_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_90.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_90.log
+report_power > ./4points_shift/part1/power_90.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_90.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_90.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_90.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_90.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_90.log
+report_power > ./4points_shift/part1/power_ultra_90.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_90.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_90.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_90.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_80.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_80.log
+report_power > ./4points_shift/part1/power_80.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_80.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_80.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_80.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_80.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_80.log
+report_power > ./4points_shift/part1/power_ultra_80.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_80.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_80.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_80.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_70.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_70.log
+report_power > ./4points_shift/part1/power_70.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_70.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_70.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_70.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_70.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_70.log
+report_power > ./4points_shift/part1/power_ultra_70.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_70.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_70.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_70.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_60.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_60.log
+report_power > ./4points_shift/part1/power_60.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_60.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_60.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_60.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_60.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_60.log
+report_power > ./4points_shift/part1/power_ultra_60.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_60.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_60.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_60.v
+remove_design -designs
+
+read_file ../FAS_4points_shift.v
+source FAS_50.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_50.log
+report_power > ./4points_shift/part1/power_50.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_50.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_50.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_50.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_50.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_50.log
+report_power > ./4points_shift/part1/power_ultra_50.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_50.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_50.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_50.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_40.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_40.log
+report_power > ./4points_shift/part1/power_40.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_40.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_40.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_40.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_40.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_40.log
+report_power > ./4points_shift/part1/power_ultra_40.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_40.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_40.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_40.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_30.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_30.log
+report_power > ./4points_shift/part1/power_30.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_30.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_30.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_30.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_30.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_30.log
+report_power > ./4points_shift/part1/power_ultra_30.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_30.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_30.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_30.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_20.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_20.log
+report_power > ./4points_shift/part1/power_20.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_20.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_20.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_20.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_20.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_20.log
+report_power > ./4points_shift/part1/power_ultra_20.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_20.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_20.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_20.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_10.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_10.log
+report_power > ./4points_shift/part1/power_10.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_10.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_10.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_10.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_10.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_10.log
+report_power > ./4points_shift/part1/power_ultra_10.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_10.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_10.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_10.v
+remove_design -designs
+
+===================================================
+
+<syn ADFP>
+
+<<part1 間隔10>>
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_100.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_100.log
+report_power > ./4points_shift/part1/power_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_100.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_100.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_100.log
+report_power > ./4points_shift/part1/power_ultra_100.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_100.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_100.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_90.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_90.log
+report_power > ./4points_shift/part1/power_90.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_90.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_90.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_90.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_90.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_90.log
+report_power > ./4points_shift/part1/power_ultra_90.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_90.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_90.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_90.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_80.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_80.log
+report_power > ./4points_shift/part1/power_80.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_80.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_80.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_80.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_80.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_80.log
+report_power > ./4points_shift/part1/power_ultra_80.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_80.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_80.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_80.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_70.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_70.log
+report_power > ./4points_shift/part1/power_70.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_70.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_70.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_70.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_70.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_70.log
+report_power > ./4points_shift/part1/power_ultra_70.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_70.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_70.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_70.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_60.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_60.log
+report_power > ./4points_shift/part1/power_60.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_60.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_60.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_60.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_60.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_60.log
+report_power > ./4points_shift/part1/power_ultra_60.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_60.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_60.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_60.v
+remove_design -designs
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_50.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_50.log
+report_power > ./4points_shift/part1/power_50.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_50.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_50.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_50.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_50.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_50.log
+report_power > ./4points_shift/part1/power_ultra_50.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_50.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_50.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_50.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_40.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_40.log
+report_power > ./4points_shift/part1/power_40.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_40.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_40.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_40.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_40.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_40.log
+report_power > ./4points_shift/part1/power_ultra_40.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_40.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_40.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_40.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_30.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_30.log
+report_power > ./4points_shift/part1/power_30.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_30.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_30.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_30.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_30.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_30.log
+report_power > ./4points_shift/part1/power_ultra_30.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_30.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_30.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_30.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_20.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_20.log
+report_power > ./4points_shift/part1/power_20.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_20.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_20.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_20.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_20.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_20.log
+report_power > ./4points_shift/part1/power_ultra_20.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_20.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_20.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_20.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_10.sdc
+compile -map_effort high -area_effort high -power_effort high
+report_area -hierarchy > ./4points_shift/part1/area_10.log
+report_power > ./4points_shift/part1/power_10.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_10.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_10.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_10.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_10.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part1/area_ultra_10.log
+report_power > ./4points_shift/part1/power_ultra_10.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_10.ddc
+write_sdf -version 2.1 ./4points_shift/part1/FAS_syn_ultra_10.sdf
+write -format verilog -hierarchy -output ./4points_shift/part1/FAS_syn_ultra_10.v
+remove_design -designs
+
+
+========================================================================
+<Test Gate Level>
+
+<tsmc13>
+
+<<part1 間隔10>>
+ncverilog ./testfixture1_100.v ./4points_shift/part1/FAS_syn_100.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_100.v ./4points_shift/part1/FAS_syn_ultra_100.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_90.v ./4points_shift/part1/FAS_syn_90.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_90.v ./4points_shift/part1/FAS_syn_ultra_90.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_80.v ./4points_shift/part1/FAS_syn_80.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_80.v ./4points_shift/part1/FAS_syn_ultra_80.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_70.v ./4points_shift/part1/FAS_syn_70.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_70.v ./4points_shift/part1/FAS_syn_ultra_70.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_60.v ./4points_shift/part1/FAS_syn_60.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_60.v ./4points_shift/part1/FAS_syn_ultra_60.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_50.v ./4points_shift/part1/FAS_syn_50.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_50.v ./4points_shift/part1/FAS_syn_ultra_50.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_40.v ./4points_shift/part1/FAS_syn_40.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_40.v ./4points_shift/part1/FAS_syn_ultra_40.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_30.v ./4points_shift/part1/FAS_syn_30.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_30.v ./4points_shift/part1/FAS_syn_ultra_30.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_20.v ./4points_shift/part1/FAS_syn_20.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_20.v ./4points_shift/part1/FAS_syn_ultra_20.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture1_10.v ./4points_shift/part1/FAS_syn_10.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture1_10.v ./4points_shift/part1/FAS_syn_ultra_10.v -v ./tsmc13_neg.v +define+SDF4POINTSSHIFT_U +access+r -clean
+
+========================================================================
+<ADFP>
+
+<<part1 間隔10>>
+ncverilog ./testfixture2_100.v ./4points_shift/part1/FAS_syn_100.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_100.v ./4points_shift/part1/FAS_syn_ultra_100.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_90.v ./4points_shift/part1/FAS_syn_90.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_90.v ./4points_shift/part1/FAS_syn_ultra_90.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_80.v ./4points_shift/part1/FAS_syn_80.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_80.v ./4points_shift/part1/FAS_syn_ultra_80.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_70.v ./4points_shift/part1/FAS_syn_70.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_70.v ./4points_shift/part1/FAS_syn_ultra_70.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_60.v ./4points_shift/part1/FAS_syn_60.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_60.v ./4points_shift/part1/FAS_syn_ultra_60.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_50.v ./4points_shift/part1/FAS_syn_50.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_50.v ./4points_shift/part1/FAS_syn_ultra_50.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_40.v ./4points_shift/part1/FAS_syn_40.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_40.v ./4points_shift/part1/FAS_syn_ultra_40.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_30.v ./4points_shift/part1/FAS_syn_30.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_30.v ./4points_shift/part1/FAS_syn_ultra_30.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_20.v ./4points_shift/part1/FAS_syn_20.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_20.v ./4points_shift/part1/FAS_syn_ultra_20.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_10.v ./4points_shift/part1/FAS_syn_10.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT +access+r -clean
+ncverilog ./testfixture2_10.v ./4points_shift/part1/FAS_syn_ultra_10.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean

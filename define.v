@@ -6,3 +6,4 @@
 `define FFT_OUT_L_DOWN_BW 44 // max: 80, min: 44
 `define FFT_OUT_R_UP_BW 16 // max: 20, min: 16
 `define FFT_OUT_R_DOWN_BW 44 // max: 82, min: 44
+`define ANALYSIS_BW 13
