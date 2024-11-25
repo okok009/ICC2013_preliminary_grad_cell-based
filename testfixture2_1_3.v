@@ -1,11 +1,11 @@
 `timescale 1ns/10ps
-`define CYCLE     80                 // Modify your clock period here
-`define SDFFILE4POINTSSHIFT "./4points_shift/part1/FAS_syn_80.sdf"
-`define SDFFILE4POINTSSHIFT_U "./4points_shift/part1/FAS_syn_ultra_80.sdf"
-`define SDFFILE4POINTSROUND "./4points_round/part1/FAS_syn_80.sdf"
-`define SDFFILE4POINTSROUND_U "./4points_round/part1/FAS_syn_ultra_80.sdf"
-`define SDFFILE2POINTSROUND "./2points_round/part1/FAS_syn_80.sdf"
-`define SDFFILE2POINTSROUND_U "./2points_round/part1/FAS_syn_ultra_80.sdf"
+`define CYCLE     1.3                 // Modify your clock period here
+`define SDFFILE4POINTSSHIFT "./4points_shift/part4/FAS_syn_1_3.sdf"
+`define SDFFILE4POINTSSHIFT_U "./4points_shift/part4/FAS_syn_ultra_1_3.sdf"
+`define SDFFILE4POINTSROUND "./4points_round/part4/FAS_syn_1_3.sdf"
+`define SDFFILE4POINTSROUND_U "./4points_round/part4/FAS_syn_ultra_1_3.sdf"
+`define SDFFILE2POINTSROUND "./2points_round/part4/FAS_syn_1_3.sdf"
+`define SDFFILE2POINTSROUND_U "./2points_round/part4/FAS_syn_ultra_1_3.sdf"
 `define End_CYCLE  100000          // Modify cycle times once your design need more cycle times!
 
 `define fir_fail_limit 48
