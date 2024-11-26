@@ -28,11 +28,11 @@ module Earthquake ;
         #10 rst=0;
         #10 data_valid=1;
         for (i=0;i<1000;i=i+1) begin
+            #10
             if (done) begin
                 $fwrite(write_file,"%b\n",freq);
             end
             data=pattern[i];
-            #10
         end
         $fclose(write_file);
     end

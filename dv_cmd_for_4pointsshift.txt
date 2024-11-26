@@ -415,7 +415,7 @@ write_sdf -version 2.1 ./4points_shift/part3/FAS_syn_ultra_0_5.sdf
 write -format verilog -hierarchy -output ./4points_shift/part3/FAS_syn_ultra_0_5.v
 remove_design -designs 
 
-<<part3 間隔0.2>>
+<<part4 間隔0.2>>
 
 read_file ../FAS_4points_shift.v
 source FAS_ADFP_1_3.sdc
@@ -467,6 +467,60 @@ change_names -hierarchy -rules verilog
 write -format ddc -hierarchy -output ./4points_shift/part4/FAS_syn_ultra_0_7.ddc
 write_sdf -version 2.1 ./4points_shift/part4/FAS_syn_ultra_0_7.sdf
 write -format verilog -hierarchy -output ./4points_shift/part4/FAS_syn_ultra_0_7.v
+remove_design -designs 
+
+<<part5 往上間隔0.02>>
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_1_0_8.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part5/area_ultra_1_0_8.log
+report_power > ./4points_shift/part5/power_ultra_1_0_8.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_8.ddc
+write_sdf -version 2.1 ./4points_shift/part5/FAS_syn_ultra_1_0_8.sdf
+write -format verilog -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_8.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_1_0_6.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part5/area_ultra_1_0_6.log
+report_power > ./4points_shift/part5/power_ultra_1_0_6.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_6.ddc
+write_sdf -version 2.1 ./4points_shift/part5/FAS_syn_ultra_1_0_6.sdf
+write -format verilog -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_6.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_1_0_4.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part5/area_ultra_1_0_4.log
+report_power > ./4points_shift/part5/power_ultra_1_0_4.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_4.ddc
+write_sdf -version 2.1 ./4points_shift/part5/FAS_syn_ultra_1_0_4.sdf
+write -format verilog -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_4.v
+remove_design -designs 
+
+read_file ../FAS_4points_shift.v
+source FAS_ADFP_1_0_2.sdc
+compile_ultra
+report_area -hierarchy > ./4points_shift/part5/area_ultra_1_0_2.log
+report_power > ./4points_shift/part5/power_ultra_1_0_2.log
+define_name_rules name_rule -case_insensitive 
+change_names -hierarchy -rules name_rule
+change_names -hierarchy -rules verilog
+write -format ddc -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_2.ddc
+write_sdf -version 2.1 ./4points_shift/part5/FAS_syn_ultra_1_0_2.sdf
+write -format verilog -hierarchy -output ./4points_shift/part5/FAS_syn_ultra_1_0_2.v
 remove_design -designs 
 
 ========================================================================
@@ -521,3 +575,9 @@ ncverilog ./testfixture2_1_3.v ./4points_shift/part4/FAS_syn_ultra_1_3.v -v ./N1
 ncverilog ./testfixture2_1_1.v ./4points_shift/part4/FAS_syn_ultra_1_1.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
 ncverilog ./testfixture2_0_9.v ./4points_shift/part4/FAS_syn_ultra_0_9.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
 ncverilog ./testfixture2_0_7.v ./4points_shift/part4/FAS_syn_ultra_0_7.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+
+<<part5 間隔0.02>>
+ncverilog ./testfixture2_1_0_8.v ./4points_shift/part5/FAS_syn_ultra_1_0_8.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_1_0_6.v ./4points_shift/part5/FAS_syn_ultra_1_0_6.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_1_0_4.v ./4points_shift/part5/FAS_syn_ultra_1_0_4.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean
+ncverilog ./testfixture2_1_0_2.v ./4points_shift/part5/FAS_syn_ultra_1_0_2.v -v ./N16ADFP_StdCell.v +define+SDF4POINTSSHIFT_U +access+r -clean

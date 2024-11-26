@@ -60,7 +60,7 @@ always @(posedge clk) begin
             fir_X_reg[i] <= fir_X_reg[i-1];
         end
         // fir_d_reg <= ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]) ? {fir_d_reg[`BW*17-17 -1:0], 1'b1, fir_d} : {fir_d_reg[`BW*17-17 -1:0], 1'b0, fir_d}; // old version
-        fir_d_reg <= {fir_d_reg[`BW*17-17 -1:0], ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]), fir_d};
+        fir_d_reg <= {fir_d_reg[`BW*17-17 -1:0], ((count[5] && count[0]) || fir_d_reg[`BW*17 -1]), fir_d}; // fir_d will be 32 inputs full when count == 33. And the reason why have to count to 34 is because we just need to use count to label at the first time.
         // if (count != 6'b100010) begin // old version
         if (~(count[5]&&count[1])) begin
             count <= count + 1'b1;
